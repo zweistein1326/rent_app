@@ -17,6 +17,13 @@ class Products with ChangeNotifier {
         price: 12.99,
         image:
             'https://imgaz.staticbg.com/thumb/large/oaupload/ser1/banggood/images/99/6C/44f193a0-eced-41e4-ba78-226d7b3b25f8.jpg',
+        description: 'Samnsung TV'),
+    Product(
+        id: 'p2',
+        title: 'Television',
+        price: 12.99,
+        image:
+            'https://imgaz.staticbg.com/thumb/large/oaupload/ser1/banggood/images/99/6C/44f193a0-eced-41e4-ba78-226d7b3b25f8.jpg',
         description: 'Samnsung TV')
   ];
 

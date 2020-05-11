@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/cart.dart';
 import '../providers/product.dart';
 import '../screens/product_details_screen.dart';
 
@@ -7,37 +9,45 @@ class ProductTile extends StatelessWidget {
   ProductTile(this.product);
   @override
   Widget build(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.45,
+      height: 300,
+      child: Tile(product: product),
+    );
+  }
+}
+
+class Tile extends StatelessWidget {
+  const Tile({
+    Key key,
+    @required this.product,
+  }) : super(key: key);
+
+  final Product product;
+
+  @override
+  Widget build(BuildContext context) {
     return ListTile(
-      contentPadding: EdgeInsets.all(12),
-      leading: Image.network(
-        product.image,
-        height: 100,
-        width: 100,
-      ),
-      title: Text(product.title),
-      trailing: Container(
-        width: MediaQuery.of(context).size.width * 0.32,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            CircleAvatar(
-              radius: 40,
-              child: Text(
-                product.price.toString(),
-                style: TextStyle(fontSize: 16),
-              ),
+      title: Column(
+        children: <Widget>[
+          Container(
+            height: MediaQuery.of(context).size.height * 0.1,
+            child: Image.network(
+              product.image,
+              fit: BoxFit.fitHeight,
             ),
-            IconButton(
-              icon: Icon(
-                Icons.add_shopping_cart,
-                color: Theme.of(context).primaryColor,
-              ),
-              onPressed: () {
-                //add to cart
-              },
-            )
-          ],
-        ),
+          ),
+          Text(product.title),
+          Text('HK\$${product.price.toString()}'),
+          RaisedButton.icon(
+            color: Theme.of(context).primaryColor,
+            onPressed: () {
+              Provider.of<Cart>(context).addItem(product);
+            },
+            icon: Icon(Icons.add_shopping_cart),
+            label: Text('Add to Cart'),
+          )
+        ],
       ),
       onTap: () {
         Navigator.of(context)
