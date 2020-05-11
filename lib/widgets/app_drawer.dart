@@ -12,7 +12,7 @@ class AppDrawer extends StatelessWidget {
           AppBar(
             elevation: 0,
             title: Text(
-              'Hello User',
+              'Hello User!',
             ),
             automaticallyImplyLeading: false,
           ),

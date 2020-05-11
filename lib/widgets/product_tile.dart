@@ -43,6 +43,20 @@ class Tile extends StatelessWidget {
             color: Theme.of(context).primaryColor,
             onPressed: () {
               Provider.of<Cart>(context).addItem(product);
+              Scaffold.of(context).hideCurrentSnackBar();
+              Scaffold.of(context).showSnackBar(SnackBar(
+                content: Text('Added ${product.title} to cart'),
+                action: SnackBarAction(
+                  textColor: Theme.of(context).primaryColor,
+                  label: 'Undo',
+                  onPressed: () {
+                    Scaffold.of(context).showSnackBar(SnackBar(
+                      content: Text('Removed from cart'),
+                    ));
+                    Provider.of<Cart>(context).removeItem(product);
+                  },
+                ),
+              ));
             },
             icon: Icon(Icons.add_shopping_cart),
             label: Text('Add to Cart'),

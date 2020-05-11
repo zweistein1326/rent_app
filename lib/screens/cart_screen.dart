@@ -20,32 +20,73 @@ class CartScreen extends StatelessWidget {
       body: Container(
         padding: EdgeInsets.only(left: 20),
         child: ListView.builder(
-          itemBuilder: (ctx, index) => ListTile(
-            title: Text(cartProduct[index].product.title),
-            trailing: Container(
-              width: MediaQuery.of(context).size.width * 0.6,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  CircleAvatar(
-                    radius: 40,
-                    child: Text(
-                      cartProduct[index].product.price.toString(),
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.delete),
-                    onPressed: () {},
-                    color: Colors.red,
-                  )
-                ],
-              ),
-            ),
-          ),
+          itemBuilder: (ctx, index) =>
+              CartTile(cartProduct: cartProduct, index: index),
           itemCount: cartProducts.length,
         ),
       ),
+    );
+  }
+}
+
+class CartTile extends StatelessWidget {
+  int index;
+  CartTile({
+    Key key,
+    @required this.cartProduct,
+    this.index,
+  }) : super(key: key);
+
+  final List<CartItem> cartProduct;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Container(
+          height: MediaQuery.of(context).size.height * 0.4,
+          child: Column(
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.all(10),
+                child: ListTile(
+                  title: Text(cartProduct[index].product.title),
+                  trailing: Container(
+                    width: MediaQuery.of(context).size.width * 0.6,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        CircleAvatar(
+                          radius: 40,
+                          child: Text(
+                            cartProduct[index].product.price.toString(),
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.delete),
+                          onPressed: () {
+                            Provider.of<Cart>(context)
+                                .removeItem(cartProduct[index].product);
+                          },
+                          color: Colors.red,
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Divider(),
+            ],
+          ),
+        ),
+        Container(
+          child: RaisedButton.icon(
+              onPressed: null,
+              icon: Icon(Icons.place),
+              label: Text('Order Now')),
+        )
+      ],
     );
   }
 }
