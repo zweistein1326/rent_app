@@ -35,14 +35,17 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text('Market'),
+                  Text(
+                    'MarkIt',
+                  ),
                   IconButton(
-                    icon: Icon(Icons.shopping_cart),
+                    icon: Icon(Icons.shopping_cart,
+                        color: Theme.of(context).primaryColor),
                     onPressed: () {
                       //open cart screen
                       Navigator.of(context).pushNamed(CartScreen.routeName);
                     },
-                  )
+                  ),
                 ],
               ))),
       body: index == 0
@@ -51,11 +54,8 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                 Container(
                   height: MediaQuery.of(context).size.height * 0.3,
                   alignment: Alignment.center,
-                  child: Text(
-                    "THIS IS MY APPPPPP",
-                    style: TextStyle(
-                      fontSize: 40,
-                    ),
+                  child: Image.network(
+                    'https://www.telegraph.co.uk/content/dam/food-and-drink/2018/06/20/Veg_trans_NvBQzQNjv4Bqul3YgLXf2lEf3afmzmy4CHMT9HEIQzXrohIUnOkGrQA.jpg',
                   ),
                 ),
                 Container(
@@ -70,6 +70,20 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                     itemCount: products.length,
                   ),
                 ),
+                Expanded(
+                    child: Column(
+                  children: <Widget>[
+                    ListTile(
+                      title: Text('Item 1'),
+                    ),
+                    ListTile(
+                      title: Text('Item 2'),
+                    ),
+                    ListTile(
+                      title: Text('Item 3'),
+                    ),
+                  ],
+                ))
               ],
             )
           : Center(
