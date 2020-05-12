@@ -17,13 +17,31 @@ class CartScreen extends StatelessWidget {
         elevation: 0,
         title: Text('Your Cart'),
       ),
-      body: Container(
-        padding: EdgeInsets.only(left: 20),
-        child: ListView.builder(
-          itemBuilder: (ctx, index) =>
-              CartTile(cartProduct: cartProduct, index: index),
-          itemCount: cartProducts.length,
-        ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(left: 20),
+            height: MediaQuery.of(context).size.height * 0.5,
+            child: ListView.builder(
+              itemBuilder: (ctx, index) =>
+                  CartTile(cartProduct: cartProduct, index: index),
+              itemCount: cartProducts.length,
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.all(20),
+            child: cartProducts.length > 0
+                ? RaisedButton.icon(
+                    color: Theme.of(context).primaryColor,
+                    onPressed: () {
+                      //Place Order
+                    },
+                    icon: Icon(Icons.place),
+                    label: Text('Order Now'))
+                : null,
+          )
+        ],
       ),
     );
   }
@@ -44,7 +62,6 @@ class CartTile extends StatelessWidget {
     return Column(
       children: <Widget>[
         Container(
-          height: MediaQuery.of(context).size.height * 0.4,
           child: Column(
             children: <Widget>[
               Container(
@@ -80,12 +97,6 @@ class CartTile extends StatelessWidget {
             ],
           ),
         ),
-        Container(
-          child: RaisedButton.icon(
-              onPressed: null,
-              icon: Icon(Icons.place),
-              label: Text('Order Now')),
-        )
       ],
     );
   }

@@ -73,15 +73,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                 Expanded(
                     child: Column(
                   children: <Widget>[
-                    ListTile(
-                      title: Text('Item 1'),
-                    ),
-                    ListTile(
-                      title: Text('Item 2'),
-                    ),
-                    ListTile(
-                      title: Text('Item 3'),
-                    ),
+                    Text('This is the unknown section?? What should I add here')
                   ],
                 ))
               ],
