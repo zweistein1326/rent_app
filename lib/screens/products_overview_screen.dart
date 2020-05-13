@@ -22,6 +22,8 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
     });
   }
 
+  void search() {}
+
   @override
   Widget build(BuildContext context) {
     final products = Provider.of<Products>(context).items;
@@ -52,7 +54,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
       body: index == 0
           ? Column(
               children: <Widget>[
-                SearchBar(),
+                SearchBar(products: products),
                 Container(
                   height: MediaQuery.of(context).size.height * 0.3,
                   alignment: Alignment.center,
