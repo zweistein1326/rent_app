@@ -1,13 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../providers/product.dart';
 
-class ProductDetails extends StatelessWidget {
+class ProductDetails extends StatefulWidget {
   static const routeName = '/product-details';
+
+  @override
+  _ProductDetailsState createState() => _ProductDetailsState();
+}
+
+class _ProductDetailsState extends State<ProductDetails> {
   @override
   Widget build(BuildContext context) {
     final product = ModalRoute.of(context).settings.arguments as Product;
     return Scaffold(
         appBar: AppBar(
+          // actions: <Widget>[
+          //   Consumer<Product>(
+          //     builder: (ctx, prod, _) => IconButton(
+          //       color: Colors.red,
+          //       icon: Icon(prod.isFav ? Icons.favorite : Icons.favorite_border),
+          //       onPressed: () {
+          //         prod.toggleFavStatus();
+          //         print(prod.isFav);
+          //       },
+          //     ),
+          //   ),
+          // ],
           title: Text(product.title),
         ),
         body: Column(

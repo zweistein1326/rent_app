@@ -84,7 +84,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
       bottomNavigationBar: BottomNavigationBar(
         onTap: _selectPage,
         currentIndex: index,
-        elevation: 0,
+        elevation: 10,
         backgroundColor: Colors.white,
         items: [
           BottomNavigationBarItem(

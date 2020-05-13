@@ -8,6 +8,8 @@ import './screens/auth_screen.dart';
 import 'package:provider/provider.dart';
 import './providers/products.dart';
 import './providers/cart.dart';
+import './providers/product.dart';
+import './providers/auth.dart';
 
 void main() => runApp(MyApp());
 
@@ -21,7 +23,13 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider.value(
           value: Cart(),
-        )
+        ),
+        ChangeNotifierProvider.value(
+          value: Product(),
+        ),
+        ChangeNotifierProvider.value(
+          value: Users(),
+        ),
       ],
       child: MaterialApp(
         title: 'Rent-App',

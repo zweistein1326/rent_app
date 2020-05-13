@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './products_overview_screen.dart';
 
 class AuthScreen extends StatefulWidget {
   @override
@@ -12,6 +13,8 @@ class _AuthScreenState extends State<AuthScreen> {
   void _submit() {
     print(_usernameController.text);
     print(_passwordController.text);
+    Navigator.of(context)
+        .pushReplacementNamed(ProductsOverviewScreen.routeName);
   }
 
   @override
@@ -26,7 +29,7 @@ class _AuthScreenState extends State<AuthScreen> {
         ),
       ),
       child: Scaffold(
-        backgroundColor: Colors.white.withOpacity(0.8),
+        backgroundColor: Colors.orange.withOpacity(0.3),
         body: Column(
           children: <Widget>[
             Container(
