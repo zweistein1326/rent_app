@@ -5,6 +5,7 @@ import '../screens/cart_screen.dart';
 import '../providers/products.dart';
 import '../widgets/product_tile.dart';
 import '../widgets/app_drawer.dart';
+import '../widgets/searchbar.dart';
 
 class ProductsOverviewScreen extends StatefulWidget {
   static const routeName = '/products-screen';
@@ -51,6 +52,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
       body: index == 0
           ? Column(
               children: <Widget>[
+                SearchBar(),
                 Container(
                   height: MediaQuery.of(context).size.height * 0.3,
                   alignment: Alignment.center,
