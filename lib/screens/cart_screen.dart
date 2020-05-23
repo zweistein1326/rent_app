@@ -40,7 +40,7 @@ class CartScreen extends StatelessWidget {
                     icon: Icon(Icons.place),
                     label: Text('Order Now'))
                 : null,
-          )
+          ),
         ],
       ),
     );

@@ -16,13 +16,12 @@ class ProductsOverviewScreen extends StatefulWidget {
 
 class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   int index = 0;
+  final searchState = false;
   void _selectPage(i) {
     setState(() {
       index = i;
     });
   }
-
-  void search() {}
 
   @override
   Widget build(BuildContext context) {
@@ -52,36 +51,40 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                 ],
               ))),
       body: index == 0
-          ? Column(
-              children: <Widget>[
-                SearchBar(products: products),
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.3,
-                  alignment: Alignment.center,
-                  child: Image.network(
-                    'https://www.telegraph.co.uk/content/dam/food-and-drink/2018/06/20/Veg_trans_NvBQzQNjv4Bqul3YgLXf2lEf3afmzmy4CHMT9HEIQzXrohIUnOkGrQA.jpg',
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black12),
-                  ),
-                  height: MediaQuery.of(context).size.height * 0.23,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (ctx, i) => ProductTile(products[i]),
-                    itemCount: products.length,
-                  ),
-                ),
-                Expanded(
-                    child: Column(
+          ? searchState
+              ? null
+              : Column(
                   children: <Widget>[
-                    Text('This is the unknown section?? What should I add here')
+                    SearchBar({searchState: searchState}),
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.3,
+                      alignment: Alignment.center,
+                      child: Image.network(
+                        'https://www.telegraph.co.uk/content/dam/food-and-drink/2018/06/20/Veg_trans_NvBQzQNjv4Bqul3YgLXf2lEf3afmzmy4CHMT9HEIQzXrohIUnOkGrQA.jpg',
+                      ),
+                    ),
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black12),
+                      ),
+                      height: MediaQuery.of(context).size.height * 0.23,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (ctx, i) => ProductTile(products[i]),
+                        itemCount: products.length,
+                      ),
+                    ),
+                    Expanded(
+                        child: Column(
+                      children: <Widget>[
+                        Text(
+                            'This is the unknown section?? What should I add here')
+                      ],
+                    ))
                   ],
-                ))
-              ],
-            )
+                )
           : Center(
               child: Text("Favorites"),
             ),
@@ -100,6 +103,42 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
               icon: Icon(Icons.favorite_border),
               activeIcon: Icon(Icons.favorite)),
         ],
+      ),
+    );
+  }
+}
+
+class SearchBar extends StatefulWidget {
+  SearchBar(searchState);
+  @override
+  _SearchBarState createState() => _SearchBarState();
+}
+
+class _SearchBarState extends State<SearchBar> {
+  var searchKeyWord = '';
+  @override
+  Widget build(BuildContext context) {
+    final _searchController = TextEditingController();
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 10),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(50),
+          border: Border.all(color: Colors.black26)),
+      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+      child: TextField(
+        controller: _searchController,
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          labelText: 'Search Product',
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: 10,
+            vertical: 5,
+          ),
+        ),
+        onChanged: (input) {
+          searchKeyWord = input;
+          print(searchKeyWord);
+        },
       ),
     );
   }
