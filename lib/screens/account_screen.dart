@@ -15,7 +15,45 @@ class AccountScreen extends StatelessWidget {
         elevation: 0,
         title: Text('Hi ${user.firstName}'),
       ),
-      body: Text("HELLO"),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            ListTile(
+              title: Text(
+                'Name: ${user.firstName} ${user.lastName}',
+                style: TextStyle(fontSize: 16),
+              ),
+              trailing: IconButton(
+                icon: Icon(Icons.edit),
+                color: Theme.of(context).primaryColor,
+                onPressed: () {},
+              ),
+            ),
+            ListTile(
+              title: Text(
+                'Phone Number: ${user.contact}',
+                style: TextStyle(fontSize: 16),
+              ),
+              trailing: IconButton(
+                icon: Icon(Icons.edit),
+                color: Theme.of(context).primaryColor,
+                onPressed: () {},
+              ),
+            ),
+            ListTile(
+              title: Text(
+                'Address: ${user.address}',
+                style: TextStyle(fontSize: 16),
+              ),
+              trailing: IconButton(
+                icon: Icon(Icons.edit),
+                color: Theme.of(context).primaryColor,
+                onPressed: () {},
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
