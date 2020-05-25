@@ -5,7 +5,6 @@ import '../screens/cart_screen.dart';
 import '../providers/products.dart';
 import '../widgets/product_tile.dart';
 import '../widgets/app_drawer.dart';
-import '../widgets/searchbar.dart';
 
 class ProductsOverviewScreen extends StatefulWidget {
   static const routeName = '/products-screen';
@@ -25,7 +24,13 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final products = Provider.of<Products>(context).items;
+    var products = Provider.of<Products>(context).items('');
+    void searchByItem(searchString) {
+      setState(() {
+        products = Provider.of<Products>(context).items(searchString);
+      });
+    }
+
     return Scaffold(
       drawer: AppDrawer(),
       appBar: AppBar(
@@ -55,7 +60,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
               ? null
               : Column(
                   children: <Widget>[
-                    SearchBar({searchState: searchState}),
+                    SearchBar(searchByItem),
                     Container(
                       height: MediaQuery.of(context).size.height * 0.3,
                       alignment: Alignment.center,
@@ -109,7 +114,8 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
 }
 
 class SearchBar extends StatefulWidget {
-  SearchBar(searchState);
+  final Function searchByItem;
+  SearchBar(this.searchByItem);
   @override
   _SearchBarState createState() => _SearchBarState();
 }
@@ -135,10 +141,7 @@ class _SearchBarState extends State<SearchBar> {
             vertical: 5,
           ),
         ),
-        onChanged: (input) {
-          searchKeyWord = input;
-          print(searchKeyWord);
-        },
+        onChanged: widget.searchByItem,
       ),
     );
   }

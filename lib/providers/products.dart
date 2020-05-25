@@ -27,7 +27,7 @@ class Products with ChangeNotifier {
         description: 'Samnsung TV')
   ];
 
-  List<Product> get items {
-    return [..._items];
+  List<Product> items([String searchItem]) {
+    return [..._items.where((item) => item.title.contains(searchItem))];
   }
 }
