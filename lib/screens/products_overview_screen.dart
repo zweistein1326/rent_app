@@ -62,10 +62,30 @@ class ProductsOverviewScreen extends StatelessWidget {
               itemCount: products.length,
             ),
           ),
+          Container(
+            width: double.infinity,
+            child: Text(
+              'Household',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.start,
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.black12),
+            ),
+            height: MediaQuery.of(context).size.height * 0.23,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (ctx, i) => ProductTile(products[i]),
+              itemCount: products.length,
+            ),
+          ),
           Expanded(
               child: Column(
             children: <Widget>[
-              Text('This is the unknown section?? What should I add here')
+              Text('Add products by categories on this screen.')
             ],
           ))
         ],
