@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:rent_app/providers/products.dart';
+import 'package:provider/provider.dart';
 
 class SearchBar extends StatelessWidget {
   final _textController = TextEditingController();
@@ -13,6 +15,9 @@ class SearchBar extends StatelessWidget {
           labelText: 'Search',
           contentPadding: EdgeInsets.all(10),
         ),
+        onChanged: (input) {
+          Provider.of<Products>(context).searchByItem(input);
+        },
       ),
     );
   }

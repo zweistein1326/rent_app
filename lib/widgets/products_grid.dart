@@ -52,16 +52,5 @@ class ProductsGrid extends StatelessWidget {
         )
       ],
     );
-
-    // ),
-
-    //   Expanded(
-    //       child: Column(
-    //     children: <Widget>[
-    //       Text('Add products by categories on this screen.')
-    //     ],
-    //   ))
-    // ],
-    // );
   }
 }

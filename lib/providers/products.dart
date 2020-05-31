@@ -26,8 +26,20 @@ class Products with ChangeNotifier {
             'https://imgaz.staticbg.com/thumb/large/oaupload/ser1/banggood/images/99/6C/44f193a0-eced-41e4-ba78-226d7b3b25f8.jpg',
         description: 'Samnsung TV')
   ];
+  List<Product> _newItems;
 
   List<Product> get items {
-    return [..._items];
+    print(_newItems);
+    if (_newItems == null) {
+      return [..._items];
+    } else {
+      return [..._newItems];
+    }
+  }
+
+  void searchByItem(input) {
+    print(input);
+    _newItems = _items.where((element) => (element.title.contains(input)));
+    notifyListeners();
   }
 }
