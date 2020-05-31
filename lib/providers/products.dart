@@ -27,19 +27,18 @@ class Products with ChangeNotifier {
         description: 'Samnsung TV')
   ];
   List<Product> _newItems;
+  String searchString = '';
 
   List<Product> get items {
-    print(_newItems);
-    if (_newItems == null) {
-      return [..._items];
-    } else {
-      return [..._newItems];
-    }
+    return [
+      ..._items.where(
+          (element) => element.title.toLowerCase().contains(searchString))
+    ];
   }
 
   void searchByItem(input) {
-    print(input);
-    _newItems = _items.where((element) => (element.title.contains(input)));
+    searchString = searchString + input;
+    print(searchString);
     notifyListeners();
   }
 }
