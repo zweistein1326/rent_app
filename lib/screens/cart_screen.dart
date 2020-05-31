@@ -11,7 +11,6 @@ class CartScreen extends StatelessWidget {
     final cartProducts = Provider.of<Cart>(context).items;
     final cartProduct = cartProducts.values.toList();
     return Scaffold(
-      drawer: AppDrawer(),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
