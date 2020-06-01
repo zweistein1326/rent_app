@@ -10,13 +10,6 @@ class ProductsGrid extends StatelessWidget {
     return Column(
       children: <Widget>[
         Container(
-          height: MediaQuery.of(context).size.height * 0.3,
-          alignment: Alignment.center,
-          child: Image.network(
-            'https://www.telegraph.co.uk/content/dam/food-and-drink/2018/06/20/Veg_trans_NvBQzQNjv4Bqul3YgLXf2lEf3afmzmy4CHMT9HEIQzXrohIUnOkGrQA.jpg',
-          ),
-        ),
-        Container(
           padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.black12),
