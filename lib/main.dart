@@ -31,9 +31,13 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Rent-App',
         theme: ThemeData(
-            primarySwatch: Colors.orange,
-            accentColor: Colors.black,
-            scaffoldBackgroundColor: Colors.white),
+          primarySwatch: Colors.orange,
+          accentColor: Colors.black,
+          scaffoldBackgroundColor: Colors.white,
+          textTheme: TextTheme(
+            headline1: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+        ),
         home: AuthScreen(),
         routes: {
           ProductDetails.routeName: (ctx) => ProductDetails(),
