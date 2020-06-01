@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import './product_tile.dart';
-import '../providers/product.dart';
+import '../providers/products.dart';
+import 'package:provider/provider.dart';
 
 class ProductsGrid extends StatelessWidget {
-  List<Product> products;
-  ProductsGrid(this.products);
   @override
   Widget build(BuildContext context) {
+    var products = Provider.of<Products>(context).items;
     return Column(
       children: <Widget>[
         Container(

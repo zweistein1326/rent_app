@@ -36,7 +36,7 @@ class Products with ChangeNotifier {
   }
 
   void searchByItem(input) {
-    searchString = searchString + input;
+    searchString = input;
     print(searchString);
     notifyListeners();
   }

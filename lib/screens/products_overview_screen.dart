@@ -10,13 +10,8 @@ import '../widgets/search_bar.dart';
 
 class ProductsOverviewScreen extends StatelessWidget {
   static const routeName = '/products-screen';
-
-  final searchState = false;
-
   @override
   Widget build(BuildContext context) {
-    var products = Provider.of<Products>(context).items;
-
     return Scaffold(
       drawer: AppDrawer(),
       appBar: AppBar(
@@ -44,7 +39,7 @@ class ProductsOverviewScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(children: <Widget>[
           SearchBar(),
-          ProductsGrid(products),
+          ProductsGrid(),
         ]),
       ),
     );
