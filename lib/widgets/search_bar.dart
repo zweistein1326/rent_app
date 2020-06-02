@@ -10,6 +10,7 @@ class SearchBar extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 10),
       width: double.infinity,
       child: TextField(
+        enableSuggestions: true,
         controller: _textController,
         decoration: InputDecoration(
           labelText: 'Search',

@@ -10,12 +10,14 @@ import './providers/products.dart';
 import './providers/cart.dart';
 import './providers/product.dart';
 import './providers/auth.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(
@@ -34,9 +36,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.orange,
           accentColor: Colors.black,
           scaffoldBackgroundColor: Colors.white,
-          textTheme: TextTheme(
-            headline1: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
+          textTheme: GoogleFonts.latoTextTheme(textTheme).copyWith(),
         ),
         home: AuthScreen(),
         routes: {

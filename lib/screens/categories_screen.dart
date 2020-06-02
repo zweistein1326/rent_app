@@ -12,7 +12,7 @@ class CategoriesScreen extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
-          title: Text('Your Products'),
+          title: Text('Categories'),
         ),
         body: GridView(
           padding: EdgeInsets.symmetric(horizontal: 5),

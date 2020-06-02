@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:rent_app/widgets/products_grid.dart';
 import '../screens/categories_screen.dart';
 import '../screens/cart_screen.dart';
@@ -7,8 +6,10 @@ import '../providers/products.dart';
 import '../widgets/product_tile.dart';
 import '../widgets/app_drawer.dart';
 import '../widgets/search_bar.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ProductsOverviewScreen extends StatelessWidget {
+  void changeCategory() {}
   static const routeName = '/products-screen';
   @override
   Widget build(BuildContext context) {
@@ -25,6 +26,7 @@ class ProductsOverviewScreen extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     'MarkIt',
+                    style: GoogleFonts.lato(),
                   ),
                   IconButton(
                     icon: Icon(Icons.shopping_cart,
@@ -54,39 +56,46 @@ class ProductsOverviewScreen extends StatelessWidget {
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: <Widget>[
-                IconButton(
-                  color: Colors.black,
-                  icon: Icon(
-                    Icons.fastfood,
-                    size: 80,
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.25,
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.fastfood,
+                      size: 40,
+                    ),
+                    onPressed: () {},
                   ),
                 ),
-                SizedBox(width: 50),
-                IconButton(
-                  color: Colors.black,
-                  icon: Icon(
-                    Icons.fastfood,
-                    size: 80,
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.25,
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.fastfood,
+                      size: 40,
+                    ),
+                    onPressed: () {},
                   ),
                 ),
-                SizedBox(width: 50),
-                IconButton(
-                  color: Colors.black,
-                  icon: Icon(
-                    Icons.fastfood,
-                    size: 80,
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.25,
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.fastfood,
+                      size: 40,
+                    ),
+                    onPressed: () {},
                   ),
                 ),
-                SizedBox(width: 50),
-                IconButton(
-                  color: Colors.black,
-                  icon: Icon(
-                    Icons.fastfood,
-                    size: 80,
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.25,
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.fastfood,
+                      size: 40,
+                    ),
+                    onPressed: () {},
                   ),
                 ),
-                SizedBox(width: 50),
-                
               ],
             ),
           ),
