@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import '../models/categories.dart';
 
 class Product with ChangeNotifier {
   final String id;
@@ -6,6 +7,7 @@ class Product with ChangeNotifier {
   final double price;
   final String image;
   final String description;
+  ItemCategory category;
   bool isFav;
 
   Product(
@@ -13,6 +15,7 @@ class Product with ChangeNotifier {
       @required this.title,
       @required this.price,
       @required this.description,
+      @required this.category,
       this.image,
       this.isFav = false});
 

@@ -8,7 +8,6 @@ import './screens/auth_screen.dart';
 import 'package:provider/provider.dart';
 import './providers/products.dart';
 import './providers/cart.dart';
-import './providers/product.dart';
 import './providers/auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 

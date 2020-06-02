@@ -1,16 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:rent_app/widgets/products_grid.dart';
-import '../screens/categories_screen.dart';
+import '../models/categories.dart';
+import '../models/categories.dart';
+import '../models/categories.dart';
+import '../models/categories.dart';
+import '../models/categories.dart';
+import '../models/categories.dart';
 import '../screens/cart_screen.dart';
-import '../providers/products.dart';
-import '../widgets/product_tile.dart';
 import '../widgets/app_drawer.dart';
 import '../widgets/search_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../presentation/my_flutter_app_icons.dart';
+import '';
 
-class ProductsOverviewScreen extends StatelessWidget {
-  void changeCategory() {}
+class ProductsOverviewScreen extends StatefulWidget {
   static const routeName = '/products-screen';
+
+  @override
+  _ProductsOverviewScreenState createState() => _ProductsOverviewScreenState();
+}
+
+class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
+  var cat;
+  @override
+  void initState() {
+    // TODO: implement initState
+    cat = ItemCategory.all;
+    super.initState();
+  }
+
+  void changeCategory() {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,47 +79,87 @@ class ProductsOverviewScreen extends StatelessWidget {
                 Container(
                   width: MediaQuery.of(context).size.width * 0.25,
                   child: IconButton(
-                    icon: Icon(
-                      Icons.fastfood,
-                      size: 40,
-                    ),
-                    onPressed: () {},
+                    icon: cat == ItemCategory.food
+                        ? Icon(
+                            MyFlutterApp.food,
+                            size: 40,
+                            color: Theme.of(context).primaryColor,
+                          )
+                        : Icon(
+                            MyFlutterApp.food,
+                            size: 40,
+                          ),
+                    onPressed: () {
+                      setState(() {
+                        cat = ItemCategory.food;
+                      });
+                    },
                   ),
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width * 0.25,
                   child: IconButton(
-                    icon: Icon(
-                      Icons.fastfood,
-                      size: 40,
-                    ),
-                    onPressed: () {},
+                    icon: cat == ItemCategory.bed
+                        ? Icon(
+                            MyFlutterApp.bed,
+                            size: 40,
+                            color: Theme.of(context).primaryColor,
+                          )
+                        : Icon(
+                            MyFlutterApp.bed,
+                            size: 40,
+                          ),
+                    onPressed: () {
+                      setState(() {
+                        cat = ItemCategory.bed;
+                      });
+                    },
                   ),
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width * 0.25,
                   child: IconButton(
-                    icon: Icon(
-                      Icons.fastfood,
-                      size: 40,
-                    ),
-                    onPressed: () {},
+                    icon: cat == ItemCategory.music
+                        ? Icon(
+                            MyFlutterApp.note_beamed,
+                            size: 40,
+                            color: Theme.of(context).primaryColor,
+                          )
+                        : Icon(
+                            MyFlutterApp.note_beamed,
+                            size: 40,
+                          ),
+                    onPressed: () {
+                      setState(() {
+                        cat = ItemCategory.music;
+                      });
+                    },
                   ),
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width * 0.25,
                   child: IconButton(
-                    icon: Icon(
-                      Icons.fastfood,
-                      size: 40,
-                    ),
-                    onPressed: () {},
+                    icon: cat == ItemCategory.sports
+                        ? Icon(
+                            MyFlutterApp.football_ball,
+                            size: 40,
+                            color: Theme.of(context).primaryColor,
+                          )
+                        : Icon(
+                            MyFlutterApp.football_ball,
+                            size: 40,
+                          ),
+                    onPressed: () {
+                      setState(() {
+                        cat = ItemCategory.sports;
+                      });
+                    },
                   ),
                 ),
               ],
             ),
           ),
-          ProductsGrid(),
+          ProductsGrid(cat),
         ]),
       ),
     );

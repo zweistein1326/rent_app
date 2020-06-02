@@ -29,16 +29,6 @@ class AppDrawer extends StatelessWidget {
           ),
           Divider(),
           ListTile(
-            title: Text('Categories'),
-            leading: Icon(Icons.category),
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.of(context)
-                  .pushReplacementNamed(CategoriesScreen.routeName);
-            },
-          ),
-          Divider(),
-          ListTile(
             title: Text('Account'),
             leading: Icon(Icons.person),
             onTap: () {
