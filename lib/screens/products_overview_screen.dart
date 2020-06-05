@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rent_app/widgets/markit.dart';
 import 'package:rent_app/widgets/products_grid.dart';
 import '../models/categories.dart';
 import '../models/categories.dart';
@@ -21,20 +22,50 @@ class ProductsOverviewScreen extends StatefulWidget {
 }
 
 class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
-  var cat;
-  @override
+  List<Map<String, Object>> _pages;
+  int _selectedPageIndex = 0;
+
+  void _selectPage(int index) {
+    setState(() {
+      _selectedPageIndex = index;
+    });
+  }
+
   void initState() {
-    // TODO: implement initState
     cat = ItemCategory.all;
+    _pages = [
+      {'page': MarkIt(cat), 'title': 'MarkIt'},
+      {'page': SearchBar(), 'title': 'Hello'}
+    ];
     super.initState();
   }
 
+  var cat;
   void changeCategory() {}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: AppDrawer(),
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: _selectPage,
+        currentIndex: _selectedPageIndex,
+        selectedFontSize: 16,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_basket),
+            title: Text('MarkIt'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            title: Text('Search'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle),
+            title: Text('Account'),
+          ),
+        ],
+      ),
       appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
@@ -45,7 +76,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    'MarkIt',
+                    _pages[_selectedPageIndex]['title'],
                     style: GoogleFonts.lato(),
                   ),
                   IconButton(
@@ -58,110 +89,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                   ),
                 ],
               ))),
-      body: SingleChildScrollView(
-        child: Column(children: <Widget>[
-          SearchBar(),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 10),
-            height: MediaQuery.of(context).size.height * 0.25,
-            alignment: Alignment.center,
-            child: Image.network(
-              'https://www.telegraph.co.uk/content/dam/food-and-drink/2018/06/20/Veg_trans_NvBQzQNjv4Bqul3YgLXf2lEf3afmzmy4CHMT9HEIQzXrohIUnOkGrQA.jpg',
-              fit: BoxFit.cover,
-            ),
-          ),
-          Container(
-            height: 100,
-            margin: EdgeInsets.all(10),
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: <Widget>[
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.25,
-                  child: IconButton(
-                    icon: cat == ItemCategory.food
-                        ? Icon(
-                            MyFlutterApp.food,
-                            size: 40,
-                            color: Theme.of(context).primaryColor,
-                          )
-                        : Icon(
-                            MyFlutterApp.food,
-                            size: 40,
-                          ),
-                    onPressed: () {
-                      setState(() {
-                        cat = ItemCategory.food;
-                      });
-                    },
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.25,
-                  child: IconButton(
-                    icon: cat == ItemCategory.bed
-                        ? Icon(
-                            MyFlutterApp.bed,
-                            size: 40,
-                            color: Theme.of(context).primaryColor,
-                          )
-                        : Icon(
-                            MyFlutterApp.bed,
-                            size: 40,
-                          ),
-                    onPressed: () {
-                      setState(() {
-                        cat = ItemCategory.bed;
-                      });
-                    },
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.25,
-                  child: IconButton(
-                    icon: cat == ItemCategory.music
-                        ? Icon(
-                            MyFlutterApp.note_beamed,
-                            size: 40,
-                            color: Theme.of(context).primaryColor,
-                          )
-                        : Icon(
-                            MyFlutterApp.note_beamed,
-                            size: 40,
-                          ),
-                    onPressed: () {
-                      setState(() {
-                        cat = ItemCategory.music;
-                      });
-                    },
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.25,
-                  child: IconButton(
-                    icon: cat == ItemCategory.sports
-                        ? Icon(
-                            MyFlutterApp.football_ball,
-                            size: 40,
-                            color: Theme.of(context).primaryColor,
-                          )
-                        : Icon(
-                            MyFlutterApp.football_ball,
-                            size: 40,
-                          ),
-                    onPressed: () {
-                      setState(() {
-                        cat = ItemCategory.sports;
-                      });
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
-          ProductsGrid(cat),
-        ]),
-      ),
+      body: _pages[_selectedPageIndex]['page'],
     );
   }
 }
