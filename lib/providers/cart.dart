@@ -49,4 +49,12 @@ class Cart with ChangeNotifier {
     _items.remove(product.id);
     notifyListeners();
   }
+
+  double get totalAmount {
+    var total = 0.0;
+    _items.forEach((key, cartItem) {
+      total += cartItem.product.price * cartItem.quantity;
+    });
+    return total;
+  }
 }

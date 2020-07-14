@@ -29,9 +29,11 @@ class Tile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Container(
-            height: MediaQuery.of(context).size.height * 0.1,
+            height: MediaQuery.of(context).size.height * 0.23,
             child: Image.network(
               product.image,
               fit: BoxFit.fitHeight,
@@ -39,32 +41,28 @@ class Tile extends StatelessWidget {
           ),
           Text(product.title),
           Text('HK\$${product.price.toString()}'),
-          Row(
-            children: <Widget>[
-              RaisedButton.icon(
-                color: Theme.of(context).primaryColor,
-                onPressed: () {
-                  Provider.of<Cart>(context).addItem(product);
-                  Scaffold.of(context).hideCurrentSnackBar();
-                  Scaffold.of(context).showSnackBar(SnackBar(
-                    content: Text('Added ${product.title} to cart'),
-                    action: SnackBarAction(
-                      textColor: Theme.of(context).primaryColor,
-                      label: 'Undo',
-                      onPressed: () {
-                        Scaffold.of(context).showSnackBar(SnackBar(
-                          content: Text('Removed from cart'),
-                        ));
-                        Provider.of<Cart>(context).removeItem(product);
-                      },
-                    ),
-                  ));
-                },
-                icon: Icon(Icons.add_shopping_cart),
-                label: Text('Add to Cart'),
-              ),
-            ],
-          )
+          RaisedButton.icon(
+            color: Theme.of(context).primaryColor,
+            onPressed: () {
+              Provider.of<Cart>(context).addItem(product);
+              Scaffold.of(context).hideCurrentSnackBar();
+              Scaffold.of(context).showSnackBar(SnackBar(
+                content: Text('Added ${product.title} to cart'),
+                action: SnackBarAction(
+                  textColor: Theme.of(context).primaryColor,
+                  label: 'Undo',
+                  onPressed: () {
+                    Scaffold.of(context).showSnackBar(SnackBar(
+                      content: Text('Removed from cart'),
+                    ));
+                    Provider.of<Cart>(context).removeItem(product);
+                  },
+                ),
+              ));
+            },
+            icon: Icon(Icons.add_shopping_cart),
+            label: Text('Add to Cart'),
+          ),
         ],
       ),
       onTap: () {
