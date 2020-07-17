@@ -22,7 +22,7 @@ class CartTile extends StatelessWidget {
               Container(
                 margin: EdgeInsets.all(10),
                 child: ListTile(
-                  title: Text(cartProduct[index].product.title),
+                  title: Text(cartProduct[index].title),
                   trailing: Container(
                     width: MediaQuery.of(context).size.width * 0.6,
                     child: Row(
@@ -32,7 +32,7 @@ class CartTile extends StatelessWidget {
                         CircleAvatar(
                           radius: 40,
                           child: Text(
-                            (cartProduct[index].product.price *
+                            (cartProduct[index].price *
                                     cartProduct[index].quantity)
                                 .toStringAsFixed(2),
                             style: TextStyle(fontSize: 16),
@@ -59,8 +59,8 @@ class CartTile extends StatelessWidget {
                                   FlatButton(
                                     child: Text('Yes'),
                                     onPressed: () {
-                                      Provider.of<Cart>(context).removeItem(
-                                          cartProduct[index].product);
+                                      Provider.of<Cart>(context)
+                                          .removeItem(cartProduct[index].id);
                                       Navigator.of(ctx).pop(true);
                                     },
                                   ),

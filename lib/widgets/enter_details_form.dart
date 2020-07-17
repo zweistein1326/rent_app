@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
-import '../providers/auth.dart';
+import 'package:rent_app/providers/orders.dart';
 import '../providers/user.dart';
 import 'package:provider/provider.dart';
 
 class EnterDetailsForm extends StatefulWidget {
+  final Function saveForm;
+  final form;
+  final User editedUser;
+  EnterDetailsForm(
+      {Key key,
+      @required this.saveForm,
+      @required this.form,
+      @required this.editedUser});
   @override
   _EnterDetailsFormState createState() => _EnterDetailsFormState();
 }
@@ -12,7 +20,6 @@ class _EnterDetailsFormState extends State<EnterDetailsForm> {
   final _nameFocusNode = FocusNode();
   final _addressFocusNode = FocusNode();
   final _contactFocusNode = FocusNode();
-  final _form = GlobalKey<FormState>();
   var _editedUser = User(
     name: '',
     contact: '',
@@ -43,14 +50,7 @@ class _EnterDetailsFormState extends State<EnterDetailsForm> {
       setState(() {
         _isLoading = true;
       });
-      Provider.of<Auth>(context).fetchAndSetUser().then((_) {
-        print('fetching');
-        setState(() {
-          _isLoading = false;
-        });
-      });
-      _editedUser = Provider.of<Auth>(context, listen: false).user;
-      print(_editedUser);
+      _editedUser = Provider.of<Orders>(context, listen: false).user;
       if (_editedUser != null) {
         _initValues = {
           'name': _editedUser.name,
@@ -63,20 +63,6 @@ class _EnterDetailsFormState extends State<EnterDetailsForm> {
     super.didChangeDependencies();
   }
 
-  Future<void> saveForm() async {
-    final isValid = _form.currentState.validate();
-    if (!isValid) {
-      return;
-    }
-    _form.currentState.save();
-    setState(() {
-      _isLoading = true;
-    });
-    if (_editedUser != null) {
-      // await Provider.of<Auth>(context, listen: false).updateUser(_editedUser);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -84,7 +70,7 @@ class _EnterDetailsFormState extends State<EnterDetailsForm> {
       // child: Column(
       //   children: <Widget>[
       child: Form(
-        key: _form,
+        key: widget.form,
         child: ListView(
           children: <Widget>[
             Padding(
@@ -104,7 +90,6 @@ class _EnterDetailsFormState extends State<EnterDetailsForm> {
                   return null;
                 },
                 onSaved: (value) {
-                  print(_editedUser);
                   _editedUser = User(
                     name: value,
                     contact: _editedUser.contact,
@@ -137,7 +122,6 @@ class _EnterDetailsFormState extends State<EnterDetailsForm> {
                   return null;
                 },
                 onSaved: (value) {
-                  print(_editedUser);
                   _editedUser = User(
                     name: _editedUser.name,
                     contact: value,
@@ -162,7 +146,6 @@ class _EnterDetailsFormState extends State<EnterDetailsForm> {
                   return null;
                 },
                 onSaved: (value) {
-                  print(_editedUser);
                   _editedUser = User(
                     name: _editedUser.name,
                     contact: _editedUser.contact,
@@ -175,12 +158,14 @@ class _EnterDetailsFormState extends State<EnterDetailsForm> {
               padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
               child: ButtonTheme(
                 height: MediaQuery.of(context).size.height * 0.08,
-                minWidth: 20,
-                child: RaisedButton.icon(
-                  label: Text('Submit'),
-                  icon: Icon(Icons.save),
+                minWidth: MediaQuery.of(context).size.width * 0.5,
+                child: RaisedButton(
+                  child: Text('Place Order'),
                   color: Theme.of(context).primaryColor,
-                  onPressed: null,
+                  onPressed: () {
+                    widget.form.currentState.save();
+                    widget.saveForm(_editedUser);
+                  },
                 ),
               ),
             )

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:rent_app/providers/auth.dart';
+import 'package:rent_app/providers/orders.dart';
+import 'package:rent_app/providers/products.dart';
 import 'package:rent_app/screens/account_screen.dart';
 import '../providers/user.dart';
 import '../screens/cart_screen.dart';
@@ -16,6 +17,8 @@ class ProductsOverviewScreen extends StatefulWidget {
 }
 
 class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
+  var _isInit = true;
+  var _isLoading = false;
   List<Map<String, Object>> _pages;
   int _selectedPageIndex = 0;
 
@@ -34,10 +37,28 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
     super.initState();
   }
 
+  void didChangeDependencies() {
+    if (_isInit) {
+      setState(() {
+        _isLoading = true;
+      });
+      Provider.of<Products>(context).fetchAndSetProducts().then((_) => {
+            setState(() {
+              _isLoading = false;
+            })
+          });
+      Provider.of<Orders>(context).fetchAndSetUser().then((_) => {
+            setState(() {
+              _isLoading = false;
+            })
+          });
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
-    User user = Provider.of<Auth>(context).user;
-    print(user);
     return Scaffold(
       drawer: AppDrawer(),
       bottomNavigationBar: BottomNavigationBar(
@@ -82,7 +103,11 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                   ),
                 ],
               ))),
-      body: _pages[_selectedPageIndex]['page'],
+      body: _isLoading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : _pages[_selectedPageIndex]['page'],
     );
   }
 }

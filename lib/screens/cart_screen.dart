@@ -42,7 +42,7 @@ class CartBlock extends StatelessWidget {
               ? RaisedButton.icon(
                   color: Theme.of(context).primaryColor,
                   onPressed: () {
-                    //Place Order
+                    Navigator.of(context).pushNamed('order-summary');
                   },
                   icon: Icon(Icons.place),
                   label: Text('Order Now'))

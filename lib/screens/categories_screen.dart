@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rent_app/widgets/category_item.dart';
 import '../widgets/app_drawer.dart';
-import '../models/categories.dart';
 
 class CategoriesScreen extends StatelessWidget {
   static const routeName = '/categories-screen';

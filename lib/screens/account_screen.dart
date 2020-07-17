@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rent_app/providers/orders.dart';
 import '../widgets/app_drawer.dart';
 import '../providers/user.dart';
 import 'package:provider/provider.dart';
@@ -8,8 +9,7 @@ class AccountScreen extends StatelessWidget {
   static const routeName = '/account-screen';
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<Auth>(context).user;
-    print(user);
+    final user = Provider.of<Orders>(context).user;
     return Scaffold(
       drawer: AppDrawer(),
       appBar: AppBar(
@@ -25,7 +25,7 @@ class AccountScreen extends StatelessWidget {
 class AccountBlock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    User user = Provider.of<Auth>(context).user;
+    User user = Provider.of<Orders>(context).user;
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
@@ -37,7 +37,9 @@ class AccountBlock extends StatelessWidget {
             trailing: IconButton(
               icon: Icon(Icons.edit),
               color: Theme.of(context).primaryColor,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushNamed('edit-details');
+              },
             ),
           ),
           ListTile(

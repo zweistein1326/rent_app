@@ -193,7 +193,6 @@ class _AuthCardState extends State<AuthCard>
           'Could not authenticate you. Please try again later.';
       _showErrorDialog(errorMessage);
     }
-
     setState(() {
       _isLoading = false;
     });

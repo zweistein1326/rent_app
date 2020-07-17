@@ -55,7 +55,7 @@ class Tile extends StatelessWidget {
                     Scaffold.of(context).showSnackBar(SnackBar(
                       content: Text('Removed from cart'),
                     ));
-                    Provider.of<Cart>(context).removeItem(product);
+                    Provider.of<Cart>(context).removeItem(product.id);
                   },
                 ),
               ));

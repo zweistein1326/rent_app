@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import '../presentation/my_flutter_app_icons.dart';
-import '../models/categories.dart';
 import './products_grid.dart';
 
 class MarkIt extends StatefulWidget {

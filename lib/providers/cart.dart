@@ -5,9 +5,10 @@ import './product.dart';
 class CartItem {
   final String id;
   final int quantity;
-  final Product product;
+  final String title;
+  final double price;
 
-  CartItem({this.id, this.quantity, this.product});
+  CartItem({this.id, this.quantity, this.title, this.price});
 }
 
 class Cart with ChangeNotifier {
@@ -28,8 +29,9 @@ class Cart with ChangeNotifier {
         item.id,
         (existingItem) => CartItem(
           id: item.id,
-          product: item,
           quantity: existingItem.quantity + 1,
+          price: existingItem.price,
+          title: existingItem.title,
         ),
       );
     } else {
@@ -37,24 +39,30 @@ class Cart with ChangeNotifier {
         item.id,
         () => CartItem(
           id: item.id,
-          product: item,
           quantity: 1,
+          price: item.price,
+          title: item.title,
         ),
       );
     }
     notifyListeners();
   }
 
-  void removeItem(Product product) {
-    _items.remove(product.id);
+  void removeItem(String productId) {
+    _items.remove(productId);
     notifyListeners();
   }
 
   double get totalAmount {
     var total = 0.0;
     _items.forEach((key, cartItem) {
-      total += cartItem.product.price * cartItem.quantity;
+      total += cartItem.price * cartItem.quantity;
     });
     return total;
+  }
+
+  void clear() {
+    _items = {};
+    notifyListeners();
   }
 }

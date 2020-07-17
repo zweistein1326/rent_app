@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 class ProductsGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var products = Provider.of<Products>(context).items();
+    var products = Provider.of<Products>(context).items;
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
       height: MediaQuery.of(context).size.height * 0.55,

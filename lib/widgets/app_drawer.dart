@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rent_app/screens/account_screen.dart';
 import 'package:rent_app/screens/categories_screen.dart';
+import 'package:rent_app/screens/orders_screen.dart';
 import '../screens/products_overview_screen.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -25,6 +26,18 @@ class AppDrawer extends StatelessWidget {
               Navigator.of(context).pop();
               Navigator.of(context)
                   .pushReplacementNamed(ProductsOverviewScreen.routeName);
+            },
+          ),
+          Divider(),
+          ListTile(
+            title: Text('My Orders'),
+            leading: Icon(
+              Icons.payment,
+            ),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context)
+                  .pushReplacementNamed(OrdersScreen.routeName);
             },
           ),
           Divider(),

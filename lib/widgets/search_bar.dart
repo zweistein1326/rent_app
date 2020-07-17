@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:rent_app/providers/cart.dart';
 import 'package:rent_app/providers/products.dart';
 import 'package:provider/provider.dart';
 import 'package:rent_app/widgets/search_item.dart';
 import '../providers/product.dart';
-import '../models/categories.dart';
 
 class SearchBar extends StatelessWidget {
   final _textController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    List<Product> products =
-        Provider.of<Products>(context).items();
+    List<Product> products = Provider.of<Products>(context).items;
     return Column(
       children: <Widget>[
         Container(
