@@ -9,30 +9,32 @@ class SearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Product> products = Provider.of<Products>(context).items;
-    return Column(
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: 10),
-          width: double.infinity,
-          child: TextField(
-            enableSuggestions: true,
-            controller: _textController,
-            decoration: InputDecoration(
-              labelText: 'Search',
-              contentPadding: EdgeInsets.all(10),
+    return SingleChildScrollView(
+          child: Column(
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 10),
+            width: double.infinity,
+            child: TextField(
+              enableSuggestions: true,
+              controller: _textController,
+              decoration: InputDecoration(
+                labelText: 'Search',
+                contentPadding: EdgeInsets.all(10),
+              ),
+              onChanged: (input) {
+                Provider.of<Products>(context).searchByItem(input);
+              },
             ),
-            onChanged: (input) {
-              Provider.of<Products>(context).searchByItem(input);
-            },
           ),
-        ),
-        Container(
-          height: MediaQuery.of(context).size.height * 0.73,
-          child: ListView.builder(
-              itemCount: products.length,
-              itemBuilder: (ctx, index) => SearchItem(products[index])),
-        ),
-      ],
+          Container(
+            height: MediaQuery.of(context).size.height * 0.73,
+            child: ListView.builder(
+                itemCount: products.length,
+                itemBuilder: (ctx, index) => SearchItem(products[index])),
+          ),
+        ],
+      ),
     );
   }
 }

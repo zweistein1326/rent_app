@@ -78,39 +78,41 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
           ? Center(
               child: CircularProgressIndicator(),
             )
-          : Column(
-              children: <Widget>[
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.4,
-                  child: ListView.builder(
-                    itemBuilder: (ctx, index) => ListTile(
-                      title: Text(cartProduct[index].title),
-                      trailing: Container(
-                        width: MediaQuery.of(context).size.width * 0.6,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            Text('x${cartProduct[index].quantity}'),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Text((cartProduct[index].price *
-                                    cartProduct[index].quantity)
-                                .toStringAsFixed(2))
-                          ],
+          : SingleChildScrollView(
+                      child: Column(
+                children: <Widget>[
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.4,
+                    child: ListView.builder(
+                      itemBuilder: (ctx, index) => ListTile(
+                        title: Text(cartProduct[index].title),
+                        trailing: Container(
+                          width: MediaQuery.of(context).size.width * 0.6,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              Text('x${cartProduct[index].quantity}'),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Text((cartProduct[index].price *
+                                      cartProduct[index].quantity)
+                                  .toStringAsFixed(2))
+                            ],
+                          ),
                         ),
                       ),
+                      itemCount: cart.items.length,
                     ),
-                    itemCount: cart.items.length,
                   ),
-                ),
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.45,
-                  child: EnterDetailsForm(
-                      saveForm: saveForm, form: _form, editedUser: _user),
-                ),
-              ],
-            ),
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.45,
+                    child: EnterDetailsForm(
+                        saveForm: saveForm, form: _form, editedUser: _user),
+                  ),
+                ],
+              ),
+          ),
     );
   }
 }
