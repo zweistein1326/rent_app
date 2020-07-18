@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:rent_app/providers/auth.dart';
 import 'package:rent_app/screens/account_screen.dart';
-import 'package:rent_app/screens/categories_screen.dart';
 import 'package:rent_app/screens/orders_screen.dart';
 import '../screens/products_overview_screen.dart';
 
@@ -52,9 +53,33 @@ class AppDrawer extends StatelessWidget {
           ),
           Divider(),
           ListTile(
-            title: Text('Logout'),
             leading: Icon(Icons.exit_to_app),
-            onTap: () {},
+            title: Text('Logout'),
+            onTap: () {
+              showDialog(
+                  context: (context),
+                  child: AlertDialog(
+                    title: Text('Logout'),
+                    content: Text('Are you sure'),
+                    actions: <Widget>[
+                      FlatButton(
+                        child: Text('No'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      FlatButton(
+                        child: Text('Yes'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+
+                          Navigator.of(context).pushReplacementNamed('/');
+                          Provider.of<Auth>(context, listen: false).logout();
+                        },
+                      )
+                    ],
+                  ));
+            },
           ),
           Divider(),
         ],

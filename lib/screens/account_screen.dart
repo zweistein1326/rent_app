@@ -3,7 +3,6 @@ import 'package:rent_app/providers/orders.dart';
 import '../widgets/app_drawer.dart';
 import '../providers/user.dart';
 import 'package:provider/provider.dart';
-import '../providers/auth.dart';
 
 class AccountScreen extends StatelessWidget {
   static const routeName = '/account-screen';

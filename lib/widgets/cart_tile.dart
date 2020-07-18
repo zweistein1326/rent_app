@@ -3,7 +3,7 @@ import '../providers/cart.dart';
 import 'package:provider/provider.dart';
 
 class CartTile extends StatelessWidget {
-  int index;
+  final int index;
   CartTile({
     Key key,
     @required this.cartProduct,

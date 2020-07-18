@@ -35,32 +35,29 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
     showDialog(
         context: context,
         builder: (ctx) => Dialog(
-              elevation: 10,
-              backgroundColor: Colors.white,
-              child: Container(
-                height: MediaQuery.of(context).size.height * 0.6,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                    child: Column(
-                      children: <Widget>[
-                        Text(
-                          'Thank you. Your order has been confirmed',
-                          style: TextStyle(
-                            fontSize: 24,
-                          ),
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.2,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        'Thank you. Your order has been confirmed',
+                        style: TextStyle(
+                          fontSize: 24,
                         ),
-                        RaisedButton(
-                          color: Theme.of(context).primaryColor,
-                          child: Text('Go to Home'),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                            Navigator.of(context)
-                                .popAndPushNamed('/products-screen');
-                          },
-                        )
-                      ],
-                    ),
+                      ),
+                      RaisedButton(
+                        color: Theme.of(context).primaryColor,
+                        child: Text('Go to Home'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          Navigator.of(context)
+                              .popAndPushNamed('/products-screen');
+                        },
+                      )
+                    ],
                   ),
                 ),
               ),

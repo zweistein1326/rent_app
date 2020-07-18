@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth.dart';
@@ -22,12 +21,14 @@ class AuthScreen extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Color.fromRGBO(215, 117, 255, 1).withOpacity(0.5),
-                  Color.fromRGBO(255, 188, 117, 1).withOpacity(0.9),
+                  Color.fromRGBO(255, 91, 0, 1).withOpacity(0.5),
+                  Color.fromRGBO(255, 100, 0, 1).withOpacity(0.9),
+                  Color.fromRGBO(255, 123, 0, 1).withOpacity(0.9),
+                  Color.fromRGBO(255, 128, 0, 1).withOpacity(0.9),
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                stops: [0, 1],
+                stops: [0, 0.4, 0.7, 1],
               ),
             ),
           ),
@@ -44,28 +45,28 @@ class AuthScreen extends StatelessWidget {
                       margin: EdgeInsets.only(bottom: 20.0),
                       padding:
                           EdgeInsets.symmetric(vertical: 8.0, horizontal: 94.0),
-                      transform: Matrix4.rotationZ(-8 * pi / 180)
-                        ..translate(-10.0),
                       // ..translate(-10.0),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        color: Colors.deepOrange.shade900,
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 8,
-                            color: Colors.black26,
-                            offset: Offset(0, 2),
-                          )
-                        ],
+                        color: Colors.transparent,
+                        // boxShadow: [
+                        //   BoxShadow(
+                        //     blurRadius: 8,
+                        //     color: Colors.black26,
+                        //     offset: Offset(0, 2),
+                        //   )
+                        // ],
                       ),
                       child: Text(
-                        'MyShop',
+                        'Nila Foods',
                         style: TextStyle(
-                          color: Theme.of(context).accentTextTheme.title.color,
+                          color:
+                              Theme.of(context).accentTextTheme.headline6.color,
                           fontSize: 50,
                           fontFamily: 'Anton',
-                          fontWeight: FontWeight.normal,
+                          fontWeight: FontWeight.bold,
                         ),
+                        textAlign: TextAlign.center,
                       ),
                     ),
                   ),
@@ -216,6 +217,8 @@ class _AuthCardState extends State<AuthCard>
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
     return Card(
+        // color: Colors.transparent,
+        // shadowColor: Colors.transparent,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),
@@ -235,7 +238,8 @@ class _AuthCardState extends State<AuthCard>
               child: Column(
                 children: <Widget>[
                   TextFormField(
-                    decoration: InputDecoration(labelText: 'E-Mail'),
+                    decoration: InputDecoration(
+                        labelText: 'E-Mail', fillColor: Colors.white),
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) {
                       if (value.isEmpty || !value.contains('@')) {
@@ -313,6 +317,10 @@ class _AuthCardState extends State<AuthCard>
                     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     textColor: Theme.of(context).primaryColor,
                   ),
+                  // RaisedButton(
+                  //   child: Text('Login with Google'),
+                  //   onPressed: () {},
+                  // )
                 ],
               ),
             ),

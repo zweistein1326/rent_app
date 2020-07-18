@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rent_app/providers/product.dart';
 import './cart.dart';
 import 'package:http/http.dart' as http;
 import './user.dart';
@@ -60,7 +59,7 @@ class Orders with ChangeNotifier {
         ),
       );
     });
-    _orders = _loadedOrders;
+    _orders = _loadedOrders.reversed.toList();
     notifyListeners();
   }
 
@@ -122,7 +121,7 @@ class Orders with ChangeNotifier {
   Future<void> updateUser(User user) async {
     var url =
         "https://rent-app-52a40.firebaseio.com/users/$userId.json?auth=$authToken";
-    final response = await http.patch(
+    await http.patch(
       url,
       body: json.encode({
         'name': user.name,
