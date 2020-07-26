@@ -65,4 +65,30 @@ class Cart with ChangeNotifier {
     _items = {};
     notifyListeners();
   }
+
+  void increaseItemCount(String id) {
+    _items.update(
+      id,
+      (existingItem) => CartItem(
+        id: id,
+        quantity: existingItem.quantity + 1,
+        price: existingItem.price,
+        title: existingItem.title,
+      ),
+    );
+    notifyListeners();
+  }
+
+  void decreaseItemCount(String id) {
+    _items.update(
+      id,
+      (existingItem) => CartItem(
+        id: id,
+        quantity: existingItem.quantity - 1,
+        price: existingItem.price,
+        title: existingItem.title,
+      ),
+    );
+    notifyListeners();
+  }
 }

@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:rent_app/providers/auth.dart';
-import 'package:rent_app/providers/orders.dart';
-import 'package:rent_app/screens/account_screen.dart';
-import 'package:rent_app/screens/edit_details_screen.dart';
-import 'package:rent_app/screens/order_screen.dart';
-import 'package:rent_app/screens/order_summary_screen.dart';
-import 'package:rent_app/screens/orders_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:google_fonts/google_fonts.dart';
+import './providers/auth.dart';
+import './providers/orders.dart';
+import './providers/products.dart';
+import './providers/cart.dart';
+import 'providers/user.dart';
+import './screens/account_screen.dart';
+import './screens/edit_details_screen.dart';
+import './screens/order_screen.dart';
+import './screens/order_summary_screen.dart';
+import './screens/orders_screen.dart';
+import './screens/payment_screen.dart';
 import './screens/categories_screen.dart';
 import './screens/product_details_screen.dart';
 import './screens/products_overview_screen.dart';
 import './screens/auth_screen.dart';
-import 'package:provider/provider.dart';
-import './providers/products.dart';
-import './providers/cart.dart';
-import 'providers/user.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 void main() => runApp(MyApp());
 
@@ -74,7 +75,8 @@ class MyApp extends StatelessWidget {
             OrderSummaryScreen.routeName: (ctx) => OrderSummaryScreen(),
             OrdersScreen.routeName: (ctx) => OrdersScreen(),
             EditDetailsScreen.routeName: (ctx) => EditDetailsScreen(),
-            OrderScreen.routeName: (ctx) => OrderScreen()
+            OrderScreen.routeName: (ctx) => OrderScreen(),
+            PaymentScreen.routeName: (ctx) => PaymentScreen()
           },
         ),
       ),

@@ -33,11 +33,7 @@ class _EditDetailsScreenState extends State<EditDetailsScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
-        child: EnterDetailsForm(
-          form: _form,
-          saveForm: saveForm,
-          editedUser: _user,
-        ),
+        child: EnterDetailsForm(),
       ),
     );
   }

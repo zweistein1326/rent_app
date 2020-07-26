@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rent_app/providers/product.dart';
 import '../providers/cart.dart';
 import 'package:provider/provider.dart';
 
@@ -28,7 +29,32 @@ class CartTile extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
-                        Text('x${cartProduct[index].quantity}'),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.1,
+                          child: FlatButton(
+                            child: Text('-'),
+                            onPressed: () {
+                              Provider.of<Cart>(context)
+                                  .decreaseItemCount(cartProduct[index].id);
+                            },
+                          ),
+                        ),
+                        Text(
+                          '${cartProduct[index].quantity}',
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.1,
+                          child: FlatButton(
+                            child: Text('+'),
+                            onPressed: () {
+                              Provider.of<Cart>(context)
+                                  .increaseItemCount(cartProduct[index].id);
+                            },
+                          ),
+                        ),
+
                         CircleAvatar(
                           radius: 40,
                           child: Text(
@@ -38,38 +64,38 @@ class CartTile extends StatelessWidget {
                             style: TextStyle(fontSize: 16),
                           ),
                         ),
-                        IconButton(
-                          icon: Icon(Icons.delete),
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (ctx) => AlertDialog(
-                                title: Text('Are you sure?'),
-                                content: Text(
-                                  'Do you want to remove the item from the cart?',
-                                  style: TextStyle(color: Colors.black),
-                                ),
-                                actions: <Widget>[
-                                  FlatButton(
-                                    child: Text('No'),
-                                    onPressed: () {
-                                      Navigator.of(ctx).pop(false);
-                                    },
-                                  ),
-                                  FlatButton(
-                                    child: Text('Yes'),
-                                    onPressed: () {
-                                      Provider.of<Cart>(context)
-                                          .removeItem(cartProduct[index].id);
-                                      Navigator.of(ctx).pop(true);
-                                    },
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                          color: Colors.red,
-                        )
+                        // IconButton(
+                        //   icon: Icon(Icons.delete),
+                        //   onPressed: () {
+                        //     showDialog(
+                        //       context: context,
+                        //       builder: (ctx) => AlertDialog(
+                        //         title: Text('Are you sure?'),
+                        //         content: Text(
+                        //           'Do you want to remove the item from the cart?',
+                        //           style: TextStyle(color: Colors.black),
+                        //         ),
+                        //         actions: <Widget>[
+                        //           FlatButton(
+                        //             child: Text('No'),
+                        //             onPressed: () {
+                        //               Navigator.of(ctx).pop(false);
+                        //             },
+                        //           ),
+                        //           FlatButton(
+                        //             child: Text('Yes'),
+                        //             onPressed: () {
+                        //               Provider.of<Cart>(context)
+                        //                   .removeItem(cartProduct[index].id);
+                        //               Navigator.of(ctx).pop(true);
+                        //             },
+                        //           ),
+                        //         ],
+                        //       ),
+                        //     );
+                        //   },
+                        //   color: Colors.red,
+                        // )
                       ],
                     ),
                   ),
