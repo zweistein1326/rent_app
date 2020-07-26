@@ -141,5 +141,6 @@ class Orders with ChangeNotifier {
       address: user.address,
     );
     _user = newUser;
+    notifyListeners();
   }
 }

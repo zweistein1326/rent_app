@@ -48,7 +48,7 @@ class Tile extends StatelessWidget {
           Text(
             '₹${product.price.toString()}',
             style: TextStyle(
-              color: Colors.redAccent,
+              color: Theme.of(context).primaryColor,
               fontWeight: FontWeight.bold,
               fontSize: 20,
             ),

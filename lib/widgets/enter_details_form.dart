@@ -66,11 +66,11 @@ class _EnterDetailsFormState extends State<EnterDetailsForm> {
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<Orders>(context, listen: false).updateUser(_editedUser);
+    await Provider.of<Orders>(context).updateUser(_editedUser);
     setState(() {
       _isLoading = false;
     });
-    Navigator.of(context).popAndPushNamed('/products-screen');
+    Navigator.of(context).pop();
   }
 
   @override
