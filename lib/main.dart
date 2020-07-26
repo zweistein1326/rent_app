@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:rent_app/providers/auth.dart';
 import 'package:rent_app/providers/orders.dart';
 import 'package:rent_app/screens/account_screen.dart';
-import 'package:rent_app/screens/cart_screen.dart';
 import 'package:rent_app/screens/edit_details_screen.dart';
 import 'package:rent_app/screens/order_screen.dart';
 import 'package:rent_app/screens/order_summary_screen.dart';
@@ -72,7 +71,6 @@ class MyApp extends StatelessWidget {
             ProductsOverviewScreen.routeName: (ctx) => ProductsOverviewScreen(),
             CategoriesScreen.routeName: (ctx) => CategoriesScreen(),
             AccountScreen.routeName: (ctx) => AccountScreen(),
-            CartScreen.routeName: (ctx) => CartScreen(),
             OrderSummaryScreen.routeName: (ctx) => OrderSummaryScreen(),
             OrdersScreen.routeName: (ctx) => OrdersScreen(),
             EditDetailsScreen.routeName: (ctx) => EditDetailsScreen(),

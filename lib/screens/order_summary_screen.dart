@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rent_app/providers/orders.dart';
 import 'package:rent_app/providers/user.dart';
+import 'package:rent_app/widgets/cart_tile.dart';
 import 'package:rent_app/widgets/enter_details_form.dart';
 import '../providers/cart.dart';
 
@@ -12,6 +13,23 @@ class OrderSummaryScreen extends StatefulWidget {
 }
 
 class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        // resizeToAvoidBottomPadding: false,
+        appBar: AppBar(
+          title: Text('Order Summary'),
+        ),
+        body: OrderSummaryBlock());
+  }
+}
+
+class OrderSummaryBlock extends StatefulWidget {
+  @override
+  _State createState() => _State();
+}
+
+class _State extends State<OrderSummaryBlock> {
   final _form = GlobalKey<FormState>();
   var cart;
   var cartProduct;
@@ -72,66 +90,57 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
     cart = Provider.of<Cart>(context);
     cartProduct = cart.items.values.toList();
     _user = Provider.of<Orders>(context).user;
-    return Scaffold(
-      // resizeToAvoidBottomPadding: false,
-      appBar: AppBar(
-        title: Text('Order Summary'),
-      ),
-      body: _isLoading
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
-          : SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.4,
-                        child: ListView.builder(
-                          itemBuilder: (ctx, index) => ListTile(
-                            title: Text(cartProduct[index].title),
-                            trailing: Container(
-                              width: MediaQuery.of(context).size.width * 0.6,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: <Widget>[
-                                  Text('x${cartProduct[index].quantity}'),
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                  Text((cartProduct[index].price *
-                                          cartProduct[index].quantity)
-                                      .toStringAsFixed(2))
-                                ],
-                              ),
+    return _isLoading
+        ? Center(
+            child: CircularProgressIndicator(),
+          )
+        : cartProduct.length > 0
+            ? SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    Column(
+                      children: <Widget>[
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.4,
+                          child: ListView.builder(
+                            itemBuilder: (ctx, index) => CartTile(
+                              cartProduct: cartProduct,
+                              index: index,
                             ),
+                            itemCount: cart.items.length,
                           ),
-                          itemCount: cart.items.length,
                         ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(right: 20),
-                        width: double.infinity,
-                        child: Text(
-                          'Bill Total: ${cart.totalAmount}',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                        Container(
+                          padding: EdgeInsets.only(right: 20),
+                          width: double.infinity,
+                          child: Text(
+                            'Bill Total: ₹${cart.totalAmount}',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.end,
                           ),
-                          textAlign: TextAlign.end,
-                        ),
-                      )
-                    ],
+                        )
+                      ],
+                    ),
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.45,
+                      padding: EdgeInsets.symmetric(horizontal: 10.0),
+                      child: EnterDetailsForm(
+                          saveForm: saveForm, form: _form, editedUser: _user),
+                    ),
+                  ],
+                ),
+              )
+            : Center(
+                child: Text(
+                  'Your cart is empty',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
                   ),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.45,
-                    child: EnterDetailsForm(
-                        saveForm: saveForm, form: _form, editedUser: _user),
-                  ),
-                ],
-              ),
-            ),
-    );
+                ),
+              );
   }
 }

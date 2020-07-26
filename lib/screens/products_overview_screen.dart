@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:rent_app/providers/orders.dart';
 import 'package:rent_app/providers/products.dart';
 import 'package:rent_app/screens/account_screen.dart';
-import '../screens/cart_screen.dart';
+import 'package:rent_app/screens/order_summary_screen.dart';
 import '../widgets/app_drawer.dart';
 import '../widgets/search_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -30,7 +30,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   void initState() {
     _pages = [
       {'page': SearchBar(), 'title': 'Shop'},
-      {'page': CartBlock(), 'title': 'Cart'},
+      {'page': OrderSummaryBlock(), 'title': 'Cart'},
       {'page': AccountBlock(), 'title': 'Account'}
     ];
     super.initState();
@@ -98,7 +98,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                         color: Theme.of(context).primaryColor),
                     onPressed: () {
                       //open cart screen
-                      Navigator.of(context).pushNamed(CartScreen.routeName);
+                      Navigator.of(context).pushNamed('order-summary');
                     },
                   ),
                 ],
