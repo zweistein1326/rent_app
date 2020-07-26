@@ -31,10 +31,13 @@ class _EditDetailsScreenState extends State<EditDetailsScreen> {
       appBar: AppBar(
         title: Text('Edit Details'),
       ),
-      body: EnterDetailsForm(
-        form: _form,
-        saveForm: saveForm,
-        editedUser: _user,
+      body: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: EnterDetailsForm(
+          form: _form,
+          saveForm: saveForm,
+          editedUser: _user,
+        ),
       ),
     );
   }

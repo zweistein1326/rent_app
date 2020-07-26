@@ -74,7 +74,7 @@ class _EnterDetailsFormState extends State<EnterDetailsForm> {
         child: ListView(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(3.0),
               child: TextFormField(
                 initialValue: _initValues['name'],
                 decoration: InputDecoration(labelText: 'Name'),
@@ -99,7 +99,7 @@ class _EnterDetailsFormState extends State<EnterDetailsForm> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(3.0),
               child: TextFormField(
                 initialValue: _initValues['contact'],
                 decoration: InputDecoration(labelText: 'Contact'),
@@ -131,7 +131,7 @@ class _EnterDetailsFormState extends State<EnterDetailsForm> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(3.0),
               child: TextFormField(
                 initialValue: _initValues['address'],
                 decoration: InputDecoration(labelText: 'Address'),

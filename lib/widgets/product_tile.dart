@@ -9,11 +9,7 @@ class ProductTile extends StatelessWidget {
   ProductTile(this.product);
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width * 0.45,
-      height: 300,
-      child: Tile(product: product),
-    );
+    return Tile(product: product);
   }
 }
 
@@ -32,15 +28,31 @@ class Tile extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Container(
-            height: MediaQuery.of(context).size.height * 0.23,
-            child: Image.network(
-              product.image,
-              fit: BoxFit.fitHeight,
+          product.image != null
+              ? Image.network(
+                  product.image,
+                  fit: BoxFit.fitHeight,
+                  height: MediaQuery.of(context).size.height * 0.30,
+                )
+              : Container(
+                  height: MediaQuery.of(context).size.height * 0.30,
+                  child: Text('Image not available'),
+                ),
+          Text(
+            product.title,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
             ),
           ),
-          Text(product.title),
-          Text('HK\$${product.price.toString()}'),
+          Text(
+            'HK\$${product.price.toString()}',
+            style: TextStyle(
+              color: Colors.redAccent,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
+          ),
           RaisedButton.icon(
             color: Theme.of(context).primaryColor,
             onPressed: () {

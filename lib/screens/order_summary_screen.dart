@@ -35,15 +35,17 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
     showDialog(
         context: context,
         builder: (ctx) => Dialog(
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
                 child: Container(
+                  padding: const EdgeInsets.all(10.0),
                   height: MediaQuery.of(context).size.height * 0.2,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
                         'Thank you. Your order has been confirmed',
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 24,
                         ),
@@ -71,6 +73,7 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
     cartProduct = cart.items.values.toList();
     _user = Provider.of<Orders>(context).user;
     return Scaffold(
+      // resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         title: Text('Order Summary'),
       ),
@@ -78,38 +81,56 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
           ? Center(
               child: CircularProgressIndicator(),
             )
-          : Column(
-              children: <Widget>[
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.4,
-                  child: ListView.builder(
-                    itemBuilder: (ctx, index) => ListTile(
-                      title: Text(cartProduct[index].title),
-                      trailing: Container(
-                        width: MediaQuery.of(context).size.width * 0.6,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            Text('x${cartProduct[index].quantity}'),
-                            SizedBox(
-                              width: 20,
+          : SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  Column(
+                    children: <Widget>[
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.4,
+                        child: ListView.builder(
+                          itemBuilder: (ctx, index) => ListTile(
+                            title: Text(cartProduct[index].title),
+                            trailing: Container(
+                              width: MediaQuery.of(context).size.width * 0.6,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: <Widget>[
+                                  Text('x${cartProduct[index].quantity}'),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Text((cartProduct[index].price *
+                                          cartProduct[index].quantity)
+                                      .toStringAsFixed(2))
+                                ],
+                              ),
                             ),
-                            Text((cartProduct[index].price *
-                                    cartProduct[index].quantity)
-                                .toStringAsFixed(2))
-                          ],
+                          ),
+                          itemCount: cart.items.length,
                         ),
                       ),
-                    ),
-                    itemCount: cart.items.length,
+                      Container(
+                        padding: EdgeInsets.only(right: 20),
+                        width: double.infinity,
+                        child: Text(
+                          'Bill Total: ${cart.totalAmount}',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.end,
+                        ),
+                      )
+                    ],
                   ),
-                ),
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.45,
-                  child: EnterDetailsForm(
-                      saveForm: saveForm, form: _form, editedUser: _user),
-                ),
-              ],
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.45,
+                    child: EnterDetailsForm(
+                        saveForm: saveForm, form: _form, editedUser: _user),
+                  ),
+                ],
+              ),
             ),
     );
   }

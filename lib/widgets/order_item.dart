@@ -38,6 +38,10 @@ class _OrderItemState extends State<OrderItem> {
                   });
                 },
               ),
+              onTap: () {
+                Navigator.of(context)
+                    .pushNamed('order-screen', arguments: widget.order);
+              },
             ),
             AnimatedContainer(
               duration: Duration(milliseconds: 200),
@@ -48,7 +52,6 @@ class _OrderItemState extends State<OrderItem> {
                   : 0,
               child: ListView(
                 children: widget.order.products.map((prod) {
-                  print(prod);
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[

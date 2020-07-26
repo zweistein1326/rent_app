@@ -27,7 +27,7 @@ class SearchBar extends StatelessWidget {
           ),
         ),
         Container(
-          height: MediaQuery.of(context).size.height * 0.73,
+          height: MediaQuery.of(context).size.height * 0.7,
           child: ListView.builder(
               itemCount: products.length,
               itemBuilder: (ctx, index) => SearchItem(products[index])),

@@ -21,34 +21,51 @@ class CartScreen extends StatelessWidget {
 class CartBlock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final cartProducts = Provider.of<Cart>(context).items;
-    final cartProduct = cartProducts.values.toList();
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: <Widget>[
-        Container(
-          padding: EdgeInsets.only(left: 20),
-          height: MediaQuery.of(context).size.height * 0.5,
-          child: ListView.builder(
-            itemBuilder: (ctx, index) =>
-                CartTile(cartProduct: cartProduct, index: index),
-            itemCount: cartProducts.length,
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.all(20),
-          child: cartProducts.length > 0
-              ? RaisedButton.icon(
-                  color: Theme.of(context).primaryColor,
-                  onPressed: () {
-                    Navigator.of(context).pushNamed('order-summary');
-                  },
-                  icon: Icon(Icons.place),
-                  label: Text('Order Now'))
-              : null,
-        ),
-      ],
-    );
+    final cartProducts = Provider.of<Cart>(context);
+    final cartProduct = cartProducts.items.values.toList();
+    return cartProducts.items.length == 0
+        ? Center(
+            child: Text('You do not have any items added to your cart yet'),
+          )
+        : Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              Column(
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.only(left: 20),
+                    height: MediaQuery.of(context).size.height * 0.5,
+                    child: ListView.builder(
+                      itemBuilder: (ctx, index) =>
+                          CartTile(cartProduct: cartProduct, index: index),
+                      itemCount: cartProducts.items.length,
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(right: 20),
+                    width: double.infinity,
+                    child: Text(
+                      'Bill Total: ${cartProducts.totalAmount.toStringAsFixed(2)}',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.end,
+                    ),
+                  ),
+                ],
+              ),
+              Container(
+                  margin: EdgeInsets.all(20),
+                  child: RaisedButton.icon(
+                      color: Theme.of(context).primaryColor,
+                      onPressed: () {
+                        Navigator.of(context).pushNamed('order-summary');
+                      },
+                      icon: Icon(Icons.place),
+                      label: Text('Order Now'))),
+            ],
+          );
   }
 }
 

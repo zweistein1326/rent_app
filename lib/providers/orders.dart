@@ -80,6 +80,11 @@ class Orders with ChangeNotifier {
                   'price': cp.price
                 })
             .toList(),
+        'user': {
+          'name': user.name,
+          'address': user.address,
+          'contact': user.contact
+        },
       }),
     );
     _orders.insert(
@@ -115,6 +120,7 @@ class Orders with ChangeNotifier {
       address: extractedData['address'],
     );
     _user = _loadedUser;
+
     notifyListeners();
   }
 
@@ -129,7 +135,6 @@ class Orders with ChangeNotifier {
         'address': user.address,
       }),
     );
-    // print(json.decode(response));
     final newUser = User(
       name: user.name,
       contact: user.contact,
