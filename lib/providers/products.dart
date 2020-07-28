@@ -32,6 +32,9 @@ class Products with ChangeNotifier {
   }
 
   Future<void> fetchAndSetProducts() async {
+    print('fetchAndSetProds');
+    print(userId);
+    print(authToken);
     var url =
         "https://rent-app-52a40.firebaseio.com/products.json?auth=$authToken";
     final data = await http.get(url);

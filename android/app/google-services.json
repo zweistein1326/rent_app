@@ -8,6 +8,43 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:275336727486:android:b1b990570bce7767f887ef",
+        "android_client_info": {
+          "package_name": "com.example.rent_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "275336727486-ddl0vcf9nkpvm9gmehid0o3j20q9ne1f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.rent_app",
+            "certificate_hash": "abc6a5d87cdee3a031868d23b3dc34acd4aefe5b"
+          }
+        },
+        {
+          "client_id": "275336727486-3sohrua0littpvloi1elaujfmrt2kcaa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzrRpjQ-IiVo7DM2ivNQ4EjOYA_g1DN4Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "275336727486-3sohrua0littpvloi1elaujfmrt2kcaa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:275336727486:android:c16e1680c4930a0df887ef",
         "android_client_info": {
           "package_name": "rent.app"

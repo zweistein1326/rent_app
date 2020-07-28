@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -62,12 +63,7 @@ class MyApp extends StatelessWidget {
               color: Colors.white,
             ),
           ),
-          home: auth.isAuth
-              ? ProductsOverviewScreen()
-              : FutureBuilder(
-                  future: auth.tryAutoLogin(),
-                  builder: (ctx, _) => MobileLoginScreen(),
-                ),
+          home: AuthScreen(),
           routes: {
             ProductDetails.routeName: (ctx) => ProductDetails(),
             ProductsOverviewScreen.routeName: (ctx) => ProductsOverviewScreen(),

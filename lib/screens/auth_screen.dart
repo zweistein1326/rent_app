@@ -1,330 +1,292 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rent_app/screens/products_overview_screen.dart';
 import '../providers/auth.dart';
 import '../models/http_exception.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 enum AuthMode { Signup, Login }
 
-class AuthScreen extends StatelessWidget {
-  static const routeName = '/auth';
+class AuthScreen extends StatefulWidget {
+  @override
+  _AuthScreenState createState() => _AuthScreenState();
+}
+
+class _AuthScreenState extends State<AuthScreen> {
+  String phoneNo, smsSent, verificationId;
+
+  Future<void> verifyPhone() async {
+    print('verifying');
+    final PhoneCodeAutoRetrievalTimeout autoRetrieve = (String verId) {
+      this.verificationId = verId;
+    };
+    final PhoneCodeSent smsCodeSent = (String verId, [int forceCodeResend]) {
+      this.verificationId = verId;
+      print('phoneCodeSent');
+      smsCodeDialoge(context).then((value) {
+        print('Code Sent');
+      });
+    };
+    final PhoneVerificationCompleted verifiedSuccess =
+        (AuthCredential authCredential) {};
+    final PhoneVerificationFailed verifiedFailed = (AuthException exception) {
+      print(exception.message);
+    };
+    print('running verifyPhoneNumber');
+    await FirebaseAuth.instance.verifyPhoneNumber(
+        phoneNumber: phoneNo,
+        timeout: const Duration(seconds: 5),
+        verificationCompleted: verifiedSuccess,
+        verificationFailed: verifiedFailed,
+        codeSent: smsCodeSent,
+        codeAutoRetrievalTimeout: autoRetrieve);
+    print('verifiedPhone');
+    await Provider.of<Auth>(context).setUser();
+  }
+
+  Future<bool> smsCodeDialoge(BuildContext context) {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) => AlertDialog(
+              title: Text('Provide OTP'),
+              content: TextField(
+                onChanged: (value) {
+                  this.smsSent = value;
+                },
+              ),
+              contentPadding: EdgeInsets.all(10.0),
+              actions: <Widget>[
+                new FlatButton(
+                    onPressed: () {
+                      FirebaseAuth.instance.currentUser().then((user) {
+                        if (user != null) {
+                          Navigator.of(context).pop();
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (ctx) => ProductsOverviewScreen(),
+                              ));
+                        } else {
+                          Navigator.of(context).pop();
+                          signIn(smsSent);
+                        }
+                      });
+                    },
+                    child: Text(
+                      'Done',
+                      style: TextStyle(color: Colors.blue),
+                    ))
+              ],
+            ));
+  }
+
+  Future<void> signIn(String smsCode) async {
+    final AuthCredential credential = PhoneAuthProvider.getCredential(
+      verificationId: verificationId,
+      smsCode: smsCode,
+    );
+    await FirebaseAuth.instance.signInWithCredential(credential).then((user) {
+      Navigator.of(context).pushReplacementNamed('/products-screen');
+    }).catchError((e) {
+      print(e);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    final deviceSize = MediaQuery.of(context).size;
-    // final transformConfig = Matrix4.rotationZ(-8 * pi / 180);
-    // transformConfig.translate(-10.0);
     return Scaffold(
-      // resizeToAvoidBottomInset: false,
-      body: Stack(
-        children: <Widget>[
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Color.fromRGBO(255, 91, 0, 1).withOpacity(0.5),
-                  Color.fromRGBO(255, 100, 0, 1).withOpacity(0.9),
-                  Color.fromRGBO(255, 123, 0, 1).withOpacity(0.9),
-                  Color.fromRGBO(255, 128, 0, 1).withOpacity(0.9),
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                stops: [0, 0.4, 0.7, 1],
-              ),
-            ),
+      resizeToAvoidBottomPadding: false,
+      body: Container(
+        padding: EdgeInsets.only(top: 30),
+        width: double.infinity,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            colors: [
+              Colors.orange[900],
+              Colors.orange[800],
+              Colors.orange[400],
+            ],
           ),
-          SingleChildScrollView(
-            child: Container(
-              height: deviceSize.height,
-              width: deviceSize.width,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Flexible(
-                    child: Container(
-                      margin: EdgeInsets.only(bottom: 20.0),
-                      padding:
-                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 94.0),
-                      // ..translate(-10.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.transparent,
-                        // boxShadow: [
-                        //   BoxShadow(
-                        //     blurRadius: 8,
-                        //     color: Colors.black26,
-                        //     offset: Offset(0, 2),
-                        //   )
-                        // ],
-                      ),
-                      child: Text(
-                        'Nila Foods',
-                        style: TextStyle(
-                          color:
-                              Theme.of(context).accentTextTheme.headline6.color,
-                          fontSize: 50,
-                          fontFamily: 'Anton',
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                  Flexible(
-                    flex: deviceSize.width > 600 ? 2 : 1,
-                    child: AuthCard(),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class AuthCard extends StatefulWidget {
-  const AuthCard({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  _AuthCardState createState() => _AuthCardState();
-}
-
-class _AuthCardState extends State<AuthCard>
-    with SingleTickerProviderStateMixin {
-  final GlobalKey<FormState> _formKey = GlobalKey();
-  AuthMode _authMode = AuthMode.Login;
-  Map<String, String> _authData = {
-    'email': '',
-    'password': '',
-  };
-  var _isLoading = false;
-  final _passwordController = TextEditingController();
-//Animations
-  AnimationController _controller;
-  Animation<Offset> _slideAnimation;
-  Animation<double> _opacityAnimation;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: Duration(
-        milliseconds: 300,
-      ),
-    );
-    _slideAnimation =
-        Tween<Offset>(begin: Offset(0, -1.5), end: Offset(0, 0)).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: Curves.fastOutSlowIn,
-      ),
-    );
-    _opacityAnimation = Tween(begin: 0.0, end: 1.0)
-        .animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
-    // _heightAnimation.addListener(() => setState(() {}));
-  }
-
-  void dispose() {
-    super.dispose();
-    _controller.dispose();
-  }
-
-  void _showErrorDialog(String message) {
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text('An Error Occurred!'),
-        content: Text(message),
-        actions: <Widget>[
-          FlatButton(
-            child: Text('Okay'),
-            onPressed: () {
-              Navigator.of(ctx).pop();
-            },
-          )
-        ],
-      ),
-    );
-  }
-
-  Future<void> _submit() async {
-    if (!_formKey.currentState.validate()) {
-      // Invalid!
-      return;
-    }
-    _formKey.currentState.save();
-    setState(() {
-      _isLoading = true;
-    });
-    try {
-      if (_authMode == AuthMode.Login) {
-        // Log user in
-        await Provider.of<Auth>(context, listen: false).login(
-          _authData['email'],
-          _authData['password'],
-        );
-      } else {
-        // Sign user up
-        await Provider.of<Auth>(context, listen: false).signup(
-          _authData['email'],
-          _authData['password'],
-        );
-      }
-    } on HttpException catch (error) {
-      var errorMessage = 'Authentication failed';
-      if (error.toString().contains('EMAIL_EXISTS')) {
-        errorMessage = 'This email address is already in use.';
-      } else if (error.toString().contains('INVALID_EMAIL')) {
-        errorMessage = 'This is not a valid email address';
-      } else if (error.toString().contains('WEAK_PASSWORD')) {
-        errorMessage = 'This password is too weak.';
-      } else if (error.toString().contains('EMAIL_NOT_FOUND')) {
-        errorMessage = 'Could not find a user with that email.';
-      } else if (error.toString().contains('INVALID_PASSWORD')) {
-        errorMessage = 'Invalid password.';
-      }
-      _showErrorDialog(errorMessage);
-    } catch (error) {
-      const errorMessage =
-          'Could not authenticate you. Please try again later.';
-      _showErrorDialog(errorMessage);
-    }
-    setState(() {
-      _isLoading = false;
-    });
-  }
-
-  void _switchAuthMode() {
-    if (_authMode == AuthMode.Login) {
-      setState(() {
-        _authMode = AuthMode.Signup;
-      });
-      _controller.forward();
-    } else {
-      setState(() {
-        _authMode = AuthMode.Login;
-      });
-      _controller.reverse();
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final deviceSize = MediaQuery.of(context).size;
-    return Card(
-        // color: Colors.transparent,
-        // shadowColor: Colors.transparent,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
         ),
-        elevation: 8.0,
-        child: AnimatedContainer(
-          duration: Duration(milliseconds: 200),
-          curve: Curves.easeIn,
-          height: _authMode == AuthMode.Signup ? 320 : 260,
-          constraints: BoxConstraints(
-            minHeight: _authMode == AuthMode.Signup ? 320 : 260,
-          ),
-          width: deviceSize.width * 0.75,
-          padding: EdgeInsets.all(16.0),
-          child: Form(
-            key: _formKey,
-            child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(
+              height: 80,
+            ),
+            Padding(
+              padding: EdgeInsets.all(20),
               child: Column(
                 children: <Widget>[
-                  TextFormField(
-                    decoration: InputDecoration(
-                        labelText: 'E-Mail', fillColor: Colors.white),
-                    keyboardType: TextInputType.emailAddress,
-                    validator: (value) {
-                      if (value.isEmpty || !value.contains('@')) {
-                        return 'Invalid email!';
-                      }
-                    },
-                    onSaved: (value) {
-                      _authData['email'] = value;
-                    },
-                  ),
-                  TextFormField(
-                    decoration: InputDecoration(labelText: 'Password'),
-                    obscureText: true,
-                    controller: _passwordController,
-                    validator: (value) {
-                      if (value.isEmpty || value.length < 5) {
-                        return 'Password is too short!';
-                      }
-                    },
-                    onSaved: (value) {
-                      _authData['password'] = value;
-                    },
-                  ),
-                  AnimatedContainer(
-                    duration: Duration(milliseconds: 200),
-                    constraints: BoxConstraints(
-                        minHeight: _authMode == AuthMode.Signup ? 60 : 0,
-                        maxHeight: _authMode == AuthMode.Signup ? 120 : 0),
-                    curve: Curves.easeIn,
-                    child: FadeTransition(
-                      opacity: _opacityAnimation,
-                      child: SlideTransition(
-                        position: _slideAnimation,
-                        child: TextFormField(
-                          enabled: _authMode == AuthMode.Signup,
-                          decoration:
-                              InputDecoration(labelText: 'Confirm Password'),
-                          obscureText: true,
-                          validator: _authMode == AuthMode.Signup
-                              ? (value) {
-                                  if (value != _passwordController.text) {
-                                    return 'Passwords do not match!';
-                                  }
-                                }
-                              : null,
-                        ),
-                      ),
-                    ),
+                  Text(
+                    "Login",
+                    style: TextStyle(color: Colors.white, fontSize: 40),
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
-                  if (_isLoading)
-                    CircularProgressIndicator()
-                  else
-                    RaisedButton(
-                      child: Text(
-                          _authMode == AuthMode.Login ? 'LOGIN' : 'SIGN UP'),
-                      onPressed: _submit,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 30.0, vertical: 8.0),
-                      color: Theme.of(context).primaryColor,
-                      textColor:
-                          Theme.of(context).primaryTextTheme.button.color,
-                    ),
-                  FlatButton(
-                    child: Text(
-                        '${_authMode == AuthMode.Login ? 'SIGNUP' : 'LOGIN'} INSTEAD'),
-                    onPressed: _switchAuthMode,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 30.0, vertical: 4),
-                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    textColor: Theme.of(context).primaryColor,
+                  Text(
+                    "Welcome Back",
+                    style: TextStyle(color: Colors.white, fontSize: 18),
                   ),
-                  // RaisedButton(
-                  //   child: Text('Login with Google'),
-                  //   onPressed: () {},
-                  // )
                 ],
               ),
             ),
-          ),
-        ));
+            SizedBox(
+              height: 20,
+            ),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(60),
+                      topRight: Radius.circular(60)),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(20),
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 60,
+                      ),
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Container(
+                              // padding: EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Color.fromRGBO(255, 95, 27, 0.3),
+                                        blurRadius: 20,
+                                        offset: Offset(0, 10))
+                                  ]),
+                              child: Container(
+                                  padding: EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                      border: Border(
+                                          bottom: BorderSide(
+                                              color: Colors.grey[200]))),
+                                  child: TextField(
+                                    keyboardType: TextInputType.phone,
+                                    decoration: InputDecoration(
+                                        hintText: 'Phone Number',
+                                        hintStyle:
+                                            TextStyle(color: Colors.grey),
+                                        border: InputBorder.none),
+                                    onChanged: (val) {
+                                      this.phoneNo = val;
+                                    },
+                                  )),
+                            ),
+                            Container(
+                              height: 50,
+                              margin: EdgeInsets.symmetric(horizontal: 50),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50),
+                                  color: Colors.orange[900]),
+                              child: Center(
+                                  child: FlatButton(
+                                      child: Text(
+                                        "Get OTP",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      onPressed: verifyPhone)),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Text(
+                        'Coninue with social media',
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Container(
+                              height: 50,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                color: Colors.blue,
+                              ),
+                              child: Center(
+                                child: Text(
+                                  "Facebook",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 30,
+                          ),
+                          Expanded(
+                            child: Container(
+                              height: 50,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                color: Colors.black,
+                              ),
+                              child: Center(
+                                child: Text(
+                                  "Google",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+      // body: Column(
+      //   mainAxisAlignment: MainAxisAlignment.center,
+      //   children: <Widget>[
+      //     Padding(
+      //       padding: EdgeInsets.only(left: 25.0, right: 25.0),
+      //       child: TextFormField(
+      //         keyboardType: TextInputType.phone,
+      //         decoration: InputDecoration(hintText: 'Enter phone Number'),
+      //         onChanged: (val) {
+      //           this.phoneNo = val;
+      //         },
+      //       ),
+      //     ),
+      //     Padding(
+      //       padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 0),
+      //       child: RaisedButton(
+      //         child: Center(
+      //           child: Text('Login'),
+      //         ),
+      //         onPressed: verifyPhone,
+      //       ),
+      //     )
+      //   ],
+      // ),
+    );
   }
 }
