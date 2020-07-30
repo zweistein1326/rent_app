@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:rent_app/providers/cart.dart';
 import '../providers/product.dart';
 
 class ProductDetails extends StatefulWidget {
@@ -30,11 +32,14 @@ class _ProductDetailsState extends State<ProductDetails> {
         ),
         body: Column(
           children: <Widget>[
-            Container(
-              child: Image.network(
-                product.image,
-                height: MediaQuery.of(context).size.height * 0.3,
-                width: double.infinity,
+            Hero(
+              tag: product.id,
+              child: Container(
+                child: Image.network(
+                  product.image,
+                  height: MediaQuery.of(context).size.height * 0.3,
+                  width: double.infinity,
+                ),
               ),
             ),
             SizedBox(
@@ -43,7 +48,7 @@ class _ProductDetailsState extends State<ProductDetails> {
             Container(
               height: 100,
               child: Text(
-                'Price: HK\$${product.price.toString()}',
+                'Price: ₹${product.price.toString()}',
                 style: TextStyle(fontSize: 20),
               ),
             ),
@@ -60,7 +65,9 @@ class _ProductDetailsState extends State<ProductDetails> {
             RaisedButton.icon(
               icon: Icon(Icons.add_shopping_cart),
               label: Text('Add to cart'),
-              onPressed: () {},
+              onPressed: () {
+                Provider.of<Cart>(context).addItem(product);
+              },
               color: Theme.of(context).primaryColor,
             ),
             SizedBox(

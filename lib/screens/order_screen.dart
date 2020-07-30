@@ -35,7 +35,7 @@ class _OrderScreenState extends State<OrderScreen> {
                         ),
                       ),
                       Text(
-                        '\$${prod.price}',
+                        '₹${prod.price}',
                         style: TextStyle(
                           fontSize: 18,
                           color: Colors.grey,

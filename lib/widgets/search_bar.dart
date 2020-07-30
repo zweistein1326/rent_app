@@ -10,6 +10,7 @@ class SearchBar extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Product> products = Provider.of<Products>(context).items;
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
           margin: EdgeInsets.symmetric(horizontal: 10),
@@ -26,9 +27,18 @@ class SearchBar extends StatelessWidget {
             },
           ),
         ),
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Text(
+            'Popular Items',
+            style: TextStyle(
+                color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
+          ),
+        ),
         Container(
-          height: MediaQuery.of(context).size.height * 0.7,
+          height: MediaQuery.of(context).size.height * 0.35,
           child: ListView.builder(
+              scrollDirection: Axis.horizontal,
               itemCount: products.length,
               itemBuilder: (ctx, index) => SearchItem(products[index])),
         ),

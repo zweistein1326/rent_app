@@ -4,6 +4,7 @@ import 'package:rent_app/providers/orders.dart';
 import 'package:rent_app/providers/products.dart';
 import 'package:rent_app/screens/account_screen.dart';
 import 'package:rent_app/screens/order_summary_screen.dart';
+import 'package:rent_app/widgets/products_grid.dart';
 import '../widgets/app_drawer.dart';
 import '../widgets/search_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -29,7 +30,8 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
 
   void initState() {
     _pages = [
-      {'page': SearchBar(), 'title': 'Shop'},
+      {'page': ProductsGrid(), 'title': 'Shop'},
+      {'page': SearchBar(), 'title': 'Search'},
       {'page': OrderSummaryBlock(), 'title': 'Cart'},
       {'page': AccountBlock(), 'title': 'Account'}
     ];
@@ -61,24 +63,54 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       drawer: AppDrawer(),
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: _selectPage,
-        currentIndex: _selectedPageIndex,
-        selectedFontSize: 16,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_basket),
-            title: Text('Shop'),
+      bottomNavigationBar: Container(
+        height: 75.0,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(40.0),
+            topRight: Radius.circular(40.0),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
-            title: Text('Cart'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            title: Text('Account'),
-          ),
-        ],
+          color: Colors.orange,
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 40.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.home),
+              color: Colors.white,
+              onPressed: () {
+                setState(() {
+                  _selectPage(0);
+                });
+              },
+            ),
+            IconButton(
+                icon: Icon(Icons.search),
+                color: Colors.white,
+                onPressed: () {
+                  setState(() {
+                    _selectPage(1);
+                  });
+                }),
+            IconButton(
+                icon: Icon(Icons.shopping_basket),
+                color: Colors.white,
+                onPressed: () {
+                  setState(() {
+                    _selectPage(2);
+                  });
+                }),
+            IconButton(
+                icon: Icon(Icons.person_outline),
+                color: Colors.white,
+                onPressed: () {
+                  setState(() {
+                    _selectPage(3);
+                  });
+                }),
+          ],
+        ),
       ),
       appBar: AppBar(
           backgroundColor: Colors.white,
