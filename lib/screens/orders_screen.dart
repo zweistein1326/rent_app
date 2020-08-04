@@ -28,10 +28,15 @@ class OrdersScreen extends StatelessWidget {
             } else {
               return Consumer<Orders>(
                 builder: (ctx, orderData, child) {
-                  return ListView.builder(
-                    itemCount: orderData.orders.length,
-                    itemBuilder: (ctx, i) => OrderItem(orderData.orders[i]),
-                  );
+                  if (orderData.orders.length != 0) {
+                    return ListView.builder(
+                      itemCount: orderData.orders.length,
+                      itemBuilder: (ctx, i) => OrderItem(orderData.orders[i]),
+                    );
+                  }
+                  else{
+                    return Center(child: Text('Place an order now!'),);
+                  }
                 },
               );
             }
