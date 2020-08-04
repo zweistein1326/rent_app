@@ -144,6 +144,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                     initialPhoneNumber: _phone,
                                     initialSelection: 'IN',
                                     showCountryCodes: true,
+                                    enabledCountries: ['IN'],
                                   ),
                                 ),
                               ),
