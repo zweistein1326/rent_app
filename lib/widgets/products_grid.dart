@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rent_app/widgets/product_tile.dart';
 import '../providers/products.dart';
 import 'package:provider/provider.dart';
 import 'package:rent_app/providers/products.dart';
@@ -25,7 +26,7 @@ class ProductsGrid extends StatelessWidget {
           child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: products.length,
-              itemBuilder: (ctx, index) => SearchItem(products[index])),
+              itemBuilder: (ctx, index) => ProductTile(products[index])),
         ),
       ],
     );

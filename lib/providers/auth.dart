@@ -51,58 +51,69 @@ class Auth with ChangeNotifier {
   }
 
   Future createUserWithPhone(String phone, BuildContext context) async {
-    _firebaseAuth.verifyPhoneNumber(
-        phoneNumber: phone,
-        timeout: Duration(seconds: 30),
-        verificationCompleted: (AuthCredential authCredential) {
-          _firebaseAuth
-              .signInWithCredential(authCredential)
-              .then((AuthResult result) {
-            setUser();
-            Navigator.of(context).pop();
-            Navigator.of(context).pushNamed('/products-screen');
+    if (phone != null) {
+      _firebaseAuth.verifyPhoneNumber(
+          phoneNumber: phone,
+          timeout: Duration(seconds: 30),
+          verificationCompleted: (AuthCredential authCredential) {
+            _firebaseAuth
+                .signInWithCredential(authCredential)
+                .then((AuthResult result) {
+              setUser();
+              Navigator.of(context).pop();
+              Navigator.of(context).pushNamed('/products-screen');
+            });
+          },
+          verificationFailed: (AuthException exception) {
+            return "error";
+          },
+          codeSent: (String verificationId, [int forceResendingToken]) {
+            final _codeController = TextEditingController();
+            showDialog(
+                barrierDismissible: false,
+                context: (context),
+                builder: (ctx) => AlertDialog(
+                      title: Text('OTP'),
+                      content: TextField(
+                        keyboardType: TextInputType.number,
+                        controller: _codeController,
+                      ),
+                      actions: <Widget>[
+                        FlatButton(
+                            child: Text('Submit'),
+                            textColor: Colors.white,
+                            color: Colors.green,
+                            onPressed: () {
+                              print(
+                                  '_codeController.text.trim()${_codeController.text.trim()}');
+                              if (_codeController.text.trim() != '') {
+                                var _credential =
+                                    PhoneAuthProvider.getCredential(
+                                        verificationId: verificationId,
+                                        smsCode: _codeController.text.trim());
+                                try {
+                                  _firebaseAuth
+                                      .signInWithCredential(_credential)
+                                      .then((AuthResult result) {
+                                    setUser();
+                                    Navigator.of(context).pop();
+                                    Navigator.of(context)
+                                        .pushNamed('/products-screen');
+                                  }).catchError((e) {
+                                    return "error";
+                                  });
+                                } catch (e) {
+                                  print(e['message']);
+                                }
+                              }
+                            })
+                      ],
+                    ));
+          },
+          codeAutoRetrievalTimeout: (String verificationId) {
+            verificationId = verificationId;
           });
-        },
-        verificationFailed: (AuthException exception) {
-          return "error";
-        },
-        codeSent: (String verificationId, [int forceResendingToken]) {
-          final _codeController = TextEditingController();
-          showDialog(
-              barrierDismissible: false,
-              context: (context),
-              builder: (ctx) => AlertDialog(
-                    title: Text('OTP'),
-                    content: TextField(
-                      keyboardType: TextInputType.number,
-                      controller: _codeController,
-                    ),
-                    actions: <Widget>[
-                      FlatButton(
-                        child: Text('Submit'),
-                        textColor: Colors.white,
-                        color: Colors.green,
-                        onPressed: () {
-                          var _credential = PhoneAuthProvider.getCredential(
-                              verificationId: verificationId,
-                              smsCode: _codeController.text.trim());
-                          _firebaseAuth
-                              .signInWithCredential(_credential)
-                              .then((AuthResult result) {
-                            setUser();
-                            Navigator.of(context).pop();
-                            Navigator.of(context).pushNamed('/products-screen');
-                          }).catchError((e) {
-                            return "error";
-                          });
-                        },
-                      )
-                    ],
-                  ));
-        },
-        codeAutoRetrievalTimeout: (String verificationId) {
-          verificationId = verificationId;
-        });
+    }
   }
 
   Future<void> tryAutoLogin() async {

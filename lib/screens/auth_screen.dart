@@ -40,7 +40,6 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 
   void submit() async {
-    print('submitting');
     if (validate()) {
       try {
         final auth = Provider.of<Auth>(context, listen: false);

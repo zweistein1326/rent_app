@@ -7,6 +7,8 @@ class SearchItem extends StatelessWidget {
   SearchItem(this.product);
   @override
   Widget build(BuildContext context) {
-    return ProductTile(product);
+    return ListTile(
+      leading: Image.network(product.image),
+    );
   }
 }
